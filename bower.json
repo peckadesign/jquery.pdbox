@@ -1,0 +1,13 @@
+{
+	"name": "jquery.pdbox",
+	"version": "1.0.0",
+	"homepage": "https://github.com/peckadesign/jquery.pdbox",
+	"authors": [
+		"PeckaDesign, s.r.o <support@peckadesign.cz>",
+	],
+	"main": "jquery.pdbox.js",
+	"license": "MIT",
+	"dependencies": {
+		"jquery": ">=1.7"
+	}
+}
