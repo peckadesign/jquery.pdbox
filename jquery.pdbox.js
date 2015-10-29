@@ -56,20 +56,20 @@ $.pdBox = (function () {
 
 	function buildContent(box) {
 		$content =
-			"<div class='pd-box-content'>"
+			"<div class='pd-box-content out'>"
 				+ "<h2 class='pd-box-title'></h2>"
 				+ "<div class='pd-box-desc'>"
-					+ (box.isAjax ? "<div id='snippet--pdbox'></div>" : "")
+				+ (box.isAjax ? "<div id='snippet--pdbox'></div>" : "")
 				+ "</div>"
 				+ "<p class='pd-box-pager'>"
-					+ "<a href='#' class='pd-box-prev' rel=''><span>" + langs[box.options.lang]["prev"] + "</span></a>"
-					+ "<span class='pd-box-pages'></span>"
-					+ "<a href='#' class='pd-box-next' rel=''><span>" + langs[box.options.lang]["next"] + "</span></a>"
+				+ "<a href='#' class='pd-box-prev' rel=''><span>" + langs[box.options.lang]["prev"] + "</span></a>"
+				+ "<span class='pd-box-pages'></span>"
+				+ "<a href='#' class='pd-box-next' rel=''><span>" + langs[box.options.lang]["next"] + "</span></a>"
 				+ "</p>"
 				+ "<a href='#' class='pd-box-image' title='" + langs[box.options.lang]["close"] + "'></a>"
 				+ "<span href='#' class='pd-box-loader'><span class='pd-box-loader-in'></span></span>"
 				+ "<a href='#' class='pd-box-close' title='" + langs[box.options.lang]["close"] + "'> " + langs[box.options.lang]["close"] + "<span></span></a>"
-			+ "</div>";
+				+ "</div>";
 
 		return $content;
 	}
@@ -88,9 +88,12 @@ $.pdBox = (function () {
 				this.overlay.addClass('pd-box-overlay-inner');
 			}
 
+			this.setOptions($el);
 		}
 
-		this.setOptions($el);
+		this.window.pager.hide();
+		this.window.image.hide();
+		this.window.title.hide();
 
 		this.addEventListener('load', function () {
 			this.setOptions($el);
@@ -99,10 +102,6 @@ $.pdBox = (function () {
 		this.window.elem.on('click', $.proxy(windowElemClickHandler, this));
 
 		this.$body.addClass('pd-box-open');
-
-		this.window.pager.hide();
-		this.window.image.hide();
-		this.window.title.hide();
 
 		if (typeof $el != 'undefined' && typeof selector != 'undefined' && $el.is(':not(.ajax)')) {
 			groupBox(this, $el, selector);
@@ -167,7 +166,7 @@ $.pdBox = (function () {
 		this.window.content.css({
 			'max-width': this.options.width + 'px'
 		});
-	}
+	};
 
 	/*************** events ***************/
 
