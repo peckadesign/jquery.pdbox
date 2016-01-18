@@ -48,6 +48,8 @@ $.pdBox = (function () {
 		this.$html = $('html');
 		this.html = buildContent(this);
 
+		this.$el = null; // element, který otevřel pdbox
+
 		this.addEventListener('load', function () {
 			this.window.elem.removeClass('loading');
 		});
@@ -57,24 +59,26 @@ $.pdBox = (function () {
 	function buildContent(box) {
 		$content =
 			"<div class='pd-box-content out'>"
-				+ "<h2 class='pd-box-title'></h2>"
-				+ "<div class='pd-box-desc'>"
-				+ (box.isAjax ? "<div id='snippet--pdbox'></div>" : "")
-				+ "</div>"
-				+ "<p class='pd-box-pager'>"
-				+ "<a href='#' class='pd-box-prev' rel=''><span>" + langs[box.options.lang]["prev"] + "</span></a>"
-				+ "<span class='pd-box-pages'></span>"
-				+ "<a href='#' class='pd-box-next' rel=''><span>" + langs[box.options.lang]["next"] + "</span></a>"
-				+ "</p>"
-				+ "<a href='#' class='pd-box-image' title='" + langs[box.options.lang]["close"] + "'></a>"
+			+ "<h2 class='pd-box-title'></h2>"
+			+ "<div class='pd-box-desc'>"
+			+ (box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "")
+			+ "</div>"
+			+ "<p class='pd-box-pager'>"
+			+ "<a href='#' class='pd-box-prev' rel=''><span>" + langs[box.options.lang]["prev"] + "</span></a>"
+			+ "<span class='pd-box-pages'></span>"
+			+ "<a href='#' class='pd-box-next' rel=''><span>" + langs[box.options.lang]["next"] + "</span></a>"
+			+ "</p>"
+			+ "<a href='#' class='pd-box-image' title='" + langs[box.options.lang]["close"] + "'></a>"
 				+ "<span href='#' class='pd-box-loader'><span class='pd-box-loader-in'></span></span>"
-				+ "<a href='#' class='pd-box-close' title='" + langs[box.options.lang]["close"] + "'> " + langs[box.options.lang]["close"] + "<span></span></a>"
-				+ "</div>";
+			+ "<a href='#' class='pd-box-close' title='" + langs[box.options.lang]["close"] + "'> " + langs[box.options.lang]["close"] + "<span></span></a>"
+			+ "</div>";
 
 		return $content;
 	}
 
 	PdBox.prototype.open = function ($el, selector) {
+		this.$el = $el;
+
 		if ( ! this.isOpen) {
 			this.isOpen = true;
 			this.dispatchEvent('open', {element: $el});
@@ -88,20 +92,21 @@ $.pdBox = (function () {
 				this.overlay.addClass('pd-box-overlay-inner');
 			}
 
-			this.setOptions($el);
+			this.setOptions();
+		}
+		else {
+			this.removeEventListener('load', this.setOptions);
 		}
 
-		this.window.pager.hide();
-		this.window.image.hide();
-		this.window.title.hide();
-
-		this.addEventListener('load', function () {
-			this.setOptions($el);
-		});
+		this.addEventListener('load', this.setOptions);
 
 		this.window.elem.on('click', $.proxy(windowElemClickHandler, this));
 
 		this.$body.addClass('pd-box-open');
+
+		this.window.pager.hide();
+		this.window.image.hide();
+		this.window.title.hide();
 
 		if (typeof $el != 'undefined' && typeof selector != 'undefined' && $el.is(':not(.ajax)')) {
 			groupBox(this, $el, selector);
@@ -111,6 +116,7 @@ $.pdBox = (function () {
 	PdBox.prototype.close = function () {
 		if (this.isOpen) {
 			this.isOpen = false;
+			this.$el = null;
 
 			this.dispatchEvent('close');
 			this.removeEventListener('close');
@@ -126,6 +132,8 @@ $.pdBox = (function () {
 				this.$body.removeClass('pd-box-open');
 			}
 
+			this.removeEventListener('load', this.setOptions);
+
 			this.dispatchEvent('afterClose');
 			this.removeEventListener('afterClose');
 		}
@@ -139,16 +147,20 @@ $.pdBox = (function () {
 
 		} else {
 			this.window.elem.html(html);
+			this.window.content = this.window.elem.find('.pd-box-content');
 		}
 	};
 
-	PdBox.prototype.setOptions = function ($el) {
-		if ($el) {
-			this.options.width = $el.data('thickboxWidth') || this.defaults.width;
-			this.options.className = $el.data('thickboxClassName') ? $el.data('thickboxClassName') + ' ' + this.defaults.className : this.defaults.className;
-			this.options.onOpen = $el.data('thickboxOnOpen') || null;
-			this.options.onLoad = $el.data('thickboxOnLoad') || null;
-			this.options.onClose = $el.data('thickboxOnClose') || null;
+	PdBox.prototype.setOptions = function () {
+		// pokud otevřeme TB přes historii a bude vypnuté cacheování snippetů, pravděpodobně toto bude slehávat - řešení
+		// bude uložit při pushState všech pět informací do state a při otevírání z historie v pd.ajax.js vytvořit fake
+		// element, který podstrčíme pdboxu jako ten, který ho otevřel
+		if (this.$el) {
+			this.options.width = this.$el.data('thickboxWidth') || this.defaults.width;
+			this.options.className = this.$el.data('thickboxClassName') ? this.$el.data('thickboxClassName') + ' ' + this.defaults.className : this.defaults.className;
+			this.options.onOpen = this.$el.data('thickboxOnOpen') || null;
+			this.options.onLoad = this.$el.data('thickboxOnLoad') || null;
+			this.options.onClose = this.$el.data('thickboxOnClose') || null;
 		}
 		else {
 			this.options.width = this.defaults.width;
@@ -263,7 +275,7 @@ $.pdBox = (function () {
 		box.window.close = box.window.elem.find('.pd-box-close');
 		box.window.title = box.window.elem.find('.pd-box-title');
 		box.window.content = box.window.elem.find('.pd-box-content');
-		box.window.desc = box.window.elem.find('.pd-box-desc');
+		box.window.desc = box.window.elem.find('.pd-box-snippet') || box.window.elem.find('.pd-box-desc');
 		box.window.pager = box.window.elem.find('.pd-box-pager');
 		box.window.pages = box.window.elem.find('.pd-box-pages');
 		box.window.prev = box.window.elem.find('.pd-box-prev');
@@ -304,28 +316,28 @@ $.pdBox = (function () {
 
 			numbers = $('a', box.window.pages);
 			numbers.on('click', function (e) {
-				var $this = $(this);
-				var index = numbers.index(this);
+					var $this = $(this);
+					var index = numbers.index(this);
 
-				numbers.removeClass('active');
-				$this.addClass('active');
+					numbers.removeClass('active');
+					$this.addClass('active');
 
-				if (index == 0) {
-					box.window.prev.addClass('hide');
-				} else {
-					box.window.prev.removeClass('hide');
-				}
+					if (index == 0) {
+						box.window.prev.addClass('hide');
+					} else {
+						box.window.prev.removeClass('hide');
+					}
 
-				if (index == numbers.size() - 1) {
-					box.window.next.addClass('hide');
-				} else {
-					box.window.next.removeClass('hide');
-				}
+					if (index == numbers.size() - 1) {
+						box.window.next.addClass('hide');
+					} else {
+						box.window.next.removeClass('hide');
+					}
 
-				loadImage(box, this.href, group.eq(index));
+					loadImage(box, this.href, group.eq(index));
 
-				e.preventDefault();
-			})
+					e.preventDefault();
+				})
 				.eq(group.index($el)).trigger('click');
 
 			box.window.prev.on('click', function (e) {
