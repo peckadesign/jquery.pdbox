@@ -37,6 +37,7 @@ $.pdBox = (function () {
 		this.options = $.extend({}, defaults, options);
 
 		this.isOpen = false;
+		this.setOnOpenOptions = false; // flag do fce setOptions, jestli byl otevřený před voláním této funkce, nebo se teprve otevírá
 		this.isAjax = options.isAjax || false;
 		this.isInner = options.isInner || false;
 		this.events = {};
@@ -69,7 +70,7 @@ $.pdBox = (function () {
 			+ "<a href='#' class='pd-box-next' rel=''><span>" + langs[box.options.lang]["next"] + "</span></a>"
 			+ "</p>"
 			+ "<a href='#' class='pd-box-image' title='" + langs[box.options.lang]["close"] + "'></a>"
-				+ "<span href='#' class='pd-box-loader'><span class='pd-box-loader-in'></span></span>"
+			+ "<span href='#' class='pd-box-loader'><span class='pd-box-loader-in'></span><span class='pd-box-loader-in-2'></span></span>"
 			+ "<a href='#' class='pd-box-close' title='" + langs[box.options.lang]["close"] + "'> " + langs[box.options.lang]["close"] + "<span></span></a>"
 			+ "</div>";
 
@@ -81,6 +82,7 @@ $.pdBox = (function () {
 
 		if ( ! this.isOpen) {
 			this.isOpen = true;
+			this.setOnOpenOptions = true;
 			this.dispatchEvent('open', {element: $el});
 			showBox(this);
 			showOverlay(this);
@@ -93,6 +95,7 @@ $.pdBox = (function () {
 			}
 
 			this.setOptions();
+			this.setOnOpenOptions = false;
 		}
 		else {
 			this.removeEventListener('load', this.setOptions);
@@ -118,6 +121,8 @@ $.pdBox = (function () {
 			this.isOpen = false;
 			this.$el = null;
 
+			this.removeEventListener('load', this.setOptions);
+
 			this.dispatchEvent('close');
 			this.removeEventListener('close');
 
@@ -131,8 +136,6 @@ $.pdBox = (function () {
 			if ( ! this.isInner) {
 				this.$body.removeClass('pd-box-open');
 			}
-
-			this.removeEventListener('load', this.setOptions);
 
 			this.dispatchEvent('afterClose');
 			this.removeEventListener('afterClose');
@@ -151,23 +154,39 @@ $.pdBox = (function () {
 		}
 	};
 
-	PdBox.prototype.setOptions = function () {
-		// pokud otevřeme TB přes historii a bude vypnuté cacheování snippetů, pravděpodobně toto bude slehávat - řešení
-		// bude uložit při pushState všech pět informací do state a při otevírání z historie v pd.ajax.js vytvořit fake
-		// element, který podstrčíme pdboxu jako ten, který ho otevřel
-		if (this.$el) {
-			this.options.width = this.$el.data('thickboxWidth') || this.defaults.width;
-			this.options.className = this.$el.data('thickboxClassName') ? this.$el.data('thickboxClassName') + ' ' + this.defaults.className : this.defaults.className;
-			this.options.onOpen = this.$el.data('thickboxOnOpen') || null;
-			this.options.onLoad = this.$el.data('thickboxOnLoad') || null;
-			this.options.onClose = this.$el.data('thickboxOnClose') || null;
-		}
-		else {
-			this.options.width = this.defaults.width;
-			this.options.className = this.defaults.className;
+	/**
+	 * Nastaví vlastnosti thickboxu v pořadí defaults, nastavení z inicializace, nastavení z data atributů elementu,
+	 * který tb otevřel. Pokud je předán atribut options, použije se nsatavení z tohoto atributu.
+	 *
+	 * @param options
+	 */
+	PdBox.prototype.setOptions = function (options) {
+		// pokud TB otevíráme, chceme defaults, jinak ne
+		if (this.setOnOpenOptions) {
+			// v tuto chvíli pouze šířka a class
+			$.extend(this.options, this.defaults);
+
+			// callbacky nelze nastavovat při inicializaci, pouze přes data atributy, proto je můžeme smazat
 			this.options.onOpen = null;
 			this.options.onLoad = null;
 			this.options.onClose = null;
+		}
+
+		// pokud je el, získej z něj vlastnosti
+		if (this.$el) {
+			var elOptions = {};
+
+			elOptions.width = this.$el.data('thickboxWidth');
+			elOptions.className = this.$el.data('thickboxClassName') ? this.$el.data('thickboxClassName') + ' ' + this.defaults.className : null;
+			elOptions.onOpen = this.$el.data('thickboxOnOpen');
+			elOptions.onLoad = this.$el.data('thickboxOnLoad');
+			elOptions.onClose = this.$el.data('thickboxOnClose');
+
+			$.extend(this.options, elOptions);
+		}
+
+		if (options) {
+			$.extend(this.options, options);
 		}
 
 		this.window.content
