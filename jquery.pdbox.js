@@ -261,7 +261,8 @@ $.pdBox = (function () {
 
 		this.open($el);
 
-		this.window.desc.show().html(html);
+		this.window.descWrap.show();
+		this.window.desc.html(html);
 		if (title) {
 			this.window.title.show().text(title);
 		} else {
@@ -276,7 +277,8 @@ $.pdBox = (function () {
 		$.ajax({
 			url: href,
 			success: $.proxy(function (content) {
-				this.window.desc.show().html(content);
+				this.window.descWrap.show();
+				this.window.desc.html(content);
 				this.dispatchEvent('load', {content: content});
 			}, this)
 		});
@@ -294,7 +296,8 @@ $.pdBox = (function () {
 		box.window.close = box.window.elem.find('.pd-box-close');
 		box.window.title = box.window.elem.find('.pd-box-title');
 		box.window.content = box.window.elem.find('.pd-box-content');
-		box.window.desc = box.window.elem.find('.pd-box-snippet') || box.window.elem.find('.pd-box-desc');
+		box.window.descWrap = box.window.elem.find('.pd-box-desc')
+		box.window.desc = box.window.elem.find('.pd-box-snippet') || box.window.descWrap;
 		box.window.pager = box.window.elem.find('.pd-box-pager');
 		box.window.pages = box.window.elem.find('.pd-box-pages');
 		box.window.prev = box.window.elem.find('.pd-box-prev');
@@ -387,9 +390,10 @@ $.pdBox = (function () {
 		}
 
 		if (description) {
-			box.window.desc.show().html('<p>' + description + '</p>');
+			box.window.descWrap.show();
+			box.window.desc.html('<p>' + description + '</p>');
 		} else {
-			box.window.desc.hide();
+			box.window.descWrap.hide();
 		}
 
 		preloader = document.createElement('img');

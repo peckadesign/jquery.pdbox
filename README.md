@@ -14,3 +14,13 @@ $ cat bower.json
 	}
 }
 ```
+
+## Changelog
+
+### v1.0.3
+- oprava skrývání/zobrazování `.pd-box-desc` v obrázkovém thickboxu
+
+### v1.0.2
+- změněn způsob, jakým se nastavují parametry TB (šířka, class, callbacky) při otevření TB a při procházení v něm
+- mělo by definitivně řešit problémy s procházením odkazů uvnitř tb, kdy se měnila šířka, atp.
+- související změny v pd.ajax.js jsou na pneumatikách (automatické nastavení class thickbox odkazům uvnitř TB, které mají class ajax, ...)
