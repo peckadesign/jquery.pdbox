@@ -64,13 +64,15 @@ $.pdBox = (function () {
 			+ "<div class='pd-box-desc'>"
 			+ (box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "")
 			+ "</div>"
+			+ "<div class='pd-box-img-wrapper'>"
 			+ "<p class='pd-box-pager'>"
 			+ "<a href='#' class='pd-box-prev' rel=''><span>" + langs[box.options.lang]["prev"] + "</span></a>"
 			+ "<span class='pd-box-pages'></span>"
 			+ "<a href='#' class='pd-box-next' rel=''><span>" + langs[box.options.lang]["next"] + "</span></a>"
 			+ "</p>"
 			+ "<a href='#' class='pd-box-image' title='" + langs[box.options.lang]["close"] + "'></a>"
-			+ "<span href='#' class='pd-box-loader'><span class='pd-box-loader-in'></span><span class='pd-box-loader-in-2'></span></span>"
+			+ "</div>"
+			+ "<span class='pd-box-loader'><span class='pd-box-loader-in'></span><span class='pd-box-loader-in-2'></span></span>"
 			+ "<a href='#' class='pd-box-close' title='" + langs[box.options.lang]["close"] + "'> " + langs[box.options.lang]["close"] + "<span></span></a>"
 			+ "</div>";
 
@@ -397,23 +399,37 @@ $.pdBox = (function () {
 			box.window.descWrap.hide();
 		}
 
-		preloader = document.createElement('img');
-		$(preloader).on('load', function () {
-			var imgWidth = this.width;
-
+		if($el.data('thickbox-video')) {
+			preloader = document.createElement('iframe');
+			$(preloader).attr('src', href).attr('frameborder', 0).attr('allowfullscreen','true').attr('width',560).attr('height',315);
 			box.window.image
-				.empty()
+				.html(preloader)
 				.css({
 					maxWidth: '',
 					maxHeight: '',
 					overflow: ''
 				})
-				.append(this)
+				.addClass('pd-box-video')
 				.show();
+		} else {
+			preloader = document.createElement('img');
+			$(preloader).on('load', function () {
+				var imgWidth = this.width;
 
-			box.dispatchEvent('load', {content: preloader});
-		});
-		$(preloader).attr('src', href);
+				box.window.image
+						.html(this)
+						.css({
+							maxWidth: '',
+							maxHeight: '',
+							overflow: ''
+						})
+						.removeClass('pd-box-video')
+						.show();
+
+				box.dispatchEvent('load', {content: preloader});
+			});
+			$(preloader).attr('src', href);
+		}
 	}
 
 	function escapeKeyHandler(e) {
