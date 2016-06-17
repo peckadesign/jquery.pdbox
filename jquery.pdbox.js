@@ -60,20 +60,18 @@ $.pdBox = (function () {
 	function buildContent(box) {
 		$content =
 			"<div class='pd-box-content out'>"
-			+ "<h2 class='pd-box-title'></h2>"
-			+ "<div class='pd-box-desc'>"
-			+ (box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "")
-			+ "</div>"
-			+ "<div class='pd-box-img-wrapper'>"
-			+ "<p class='pd-box-pager'>"
-			+ "<a href='#' class='pd-box-prev' rel=''><span>" + langs[box.options.lang]["prev"] + "</span></a>"
-			+ "<span class='pd-box-pages'></span>"
-			+ "<a href='#' class='pd-box-next' rel=''><span>" + langs[box.options.lang]["next"] + "</span></a>"
-			+ "</p>"
-			+ "<a href='#' class='pd-box-image' title='" + langs[box.options.lang]["close"] + "'></a>"
-			+ "</div>"
-			+ "<span class='pd-box-loader'><span class='pd-box-loader-in'></span><span class='pd-box-loader-in-2'></span></span>"
-			+ "<a href='#' class='pd-box-close' title='" + langs[box.options.lang]["close"] + "'> " + langs[box.options.lang]["close"] + "<span></span></a>"
+				+ "<h2 class='pd-box-title'></h2>"
+				+ "<div class='pd-box-desc'>"
+					+ (box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "")
+				+ "</div>"
+				+ "<p class='pd-box-pager'>"
+					+ "<a href='#' class='pd-box-prev' rel=''><span>" + langs[box.options.lang]["prev"] + "</span></a>"
+					+ "<span class='pd-box-pages'></span>"
+					+ "<a href='#' class='pd-box-next' rel=''><span>" + langs[box.options.lang]["next"] + "</span></a>"
+				+ "</p>"
+				+ "<a href='#' class='pd-box-image' title='" + langs[box.options.lang]["close"] + "'></a>"
+				+ "<span class='pd-box-loader'><span class='pd-box-loader-in'></span><span class='pd-box-loader-in-2'></span></span>"
+				+ "<a href='#' class='pd-box-close' title='" + langs[box.options.lang]["close"] + "'> " + langs[box.options.lang]["close"] + "<span></span></a>"
 			+ "</div>";
 
 		return $content;
@@ -399,37 +397,28 @@ $.pdBox = (function () {
 			box.window.descWrap.hide();
 		}
 
-		if($el.data('thickbox-video')) {
-			preloader = document.createElement('iframe');
-			$(preloader).attr('src', href).attr('frameborder', 0).attr('allowfullscreen','true').attr('width',560).attr('height',315);
-			box.window.image
-				.html(preloader)
-				.css({
-					maxWidth: '',
-					maxHeight: '',
-					overflow: ''
-				})
-				.addClass('pd-box-video')
-				.show();
-		} else {
-			preloader = document.createElement('img');
-			$(preloader).on('load', function () {
-				var imgWidth = this.width;
 
-				box.window.image
-						.html(this)
-						.css({
-							maxWidth: '',
-							maxHeight: '',
-							overflow: ''
-						})
-						.removeClass('pd-box-video')
-						.show();
+		var video = $el.data('thickbox-video');
 
-				box.dispatchEvent('load', {content: preloader});
-			});
-			$(preloader).attr('src', href);
+		preloader = document.createElement(video ? 'iframe' : 'img');
+
+		if (video) {
+			$(preloader)
+				.attr('allowfullscreen', true)
+				.attr('width', this.width)
+				.attr('height', this.width / (16 / 9));
 		}
+
+		$(preloader).on('load', function () {
+			box.window.image
+				[video ? 'addClass' : 'removeClass']('pd-box-video')
+				.html(this)
+				.show();
+
+			box.dispatchEvent('load', {content: preloader});
+		});
+
+		$(preloader).attr('src', href);
 	}
 
 	function escapeKeyHandler(e) {
