@@ -402,23 +402,31 @@ $.pdBox = (function () {
 
 		preloader = document.createElement(video ? 'iframe' : 'img');
 
-		if (video) {
-			$(preloader)
-				.attr('allowfullscreen', true)
-				.attr('width', this.width)
-				.attr('height', this.width / (16 / 9));
-		}
+		$(preloader).on('load insert', function (e) {
+			// video vkládáme na onload událost, iframe musíme vložit manuálně při jiné události (onload nenastane pro iframe, které nejsou v DOM)
+			if ((! video && e.type === 'load') || (video && e.type === 'insert')) {
+				box.window.image
+					[video ? 'addClass' : 'removeClass']('pd-box-video')
+					.html(this)
+					.show();
+			}
 
-		$(preloader).on('load', function () {
-			box.window.image
-				[video ? 'addClass' : 'removeClass']('pd-box-video')
-				.html(this)
-				.show();
-
-			box.dispatchEvent('load', {content: preloader});
+			if (e.type === 'load') {
+				box.dispatchEvent('load', {content: preloader});
+			}
 		});
 
 		$(preloader).attr('src', href);
+
+		if (video) {
+			$(preloader)
+				.attr({
+					allowfullscreen: true,
+					width: box.options.width,
+					height: box.options.width / (16 / 9)
+				})
+				.triggerHandler('insert');
+		}
 	}
 
 	function escapeKeyHandler(e) {
