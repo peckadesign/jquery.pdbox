@@ -60,18 +60,18 @@ $.pdBox = (function () {
 	function buildContent(box) {
 		$content =
 			"<div class='pd-box-content out'>"
-			+ "<h2 class='pd-box-title'></h2>"
-			+ "<div class='pd-box-desc'>"
-			+ (box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "")
-			+ "</div>"
-			+ "<p class='pd-box-pager'>"
-			+ "<a href='#' class='pd-box-prev' rel=''><span>" + langs[box.options.lang]["prev"] + "</span></a>"
-			+ "<span class='pd-box-pages'></span>"
-			+ "<a href='#' class='pd-box-next' rel=''><span>" + langs[box.options.lang]["next"] + "</span></a>"
-			+ "</p>"
-			+ "<a href='#' class='pd-box-image' title='" + langs[box.options.lang]["close"] + "'></a>"
-			+ "<span href='#' class='pd-box-loader'><span class='pd-box-loader-in'></span><span class='pd-box-loader-in-2'></span></span>"
-			+ "<a href='#' class='pd-box-close' title='" + langs[box.options.lang]["close"] + "'> " + langs[box.options.lang]["close"] + "<span></span></a>"
+				+ "<h2 class='pd-box-title'></h2>"
+				+ "<div class='pd-box-desc'>"
+					+ (box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "")
+				+ "</div>"
+				+ "<p class='pd-box-pager'>"
+					+ "<a href='#' class='pd-box-prev' rel=''><span>" + langs[box.options.lang]["prev"] + "</span></a>"
+					+ "<span class='pd-box-pages'></span>"
+					+ "<a href='#' class='pd-box-next' rel=''><span>" + langs[box.options.lang]["next"] + "</span></a>"
+				+ "</p>"
+				+ "<a href='#' class='pd-box-image' title='" + langs[box.options.lang]["close"] + "'></a>"
+				+ "<span class='pd-box-loader'><span class='pd-box-loader-in'></span><span class='pd-box-loader-in-2'></span></span>"
+				+ "<a href='#' class='pd-box-close' title='" + langs[box.options.lang]["close"] + "'> " + langs[box.options.lang]["close"] + "<span></span></a>"
 			+ "</div>";
 
 		return $content;
@@ -397,23 +397,36 @@ $.pdBox = (function () {
 			box.window.descWrap.hide();
 		}
 
-		preloader = document.createElement('img');
-		$(preloader).on('load', function () {
-			var imgWidth = this.width;
 
-			box.window.image
-				.empty()
-				.css({
-					maxWidth: '',
-					maxHeight: '',
-					overflow: ''
-				})
-				.append(this)
-				.show();
+		var video = $el.data('thickbox-video');
 
-			box.dispatchEvent('load', {content: preloader});
+		preloader = document.createElement(video ? 'iframe' : 'img');
+
+		$(preloader).on('load insert', function (e) {
+			// video vkládáme na onload událost, iframe musíme vložit manuálně při jiné události (onload nenastane pro iframe, které nejsou v DOM)
+			if ((! video && e.type === 'load') || (video && e.type === 'insert')) {
+				box.window.image
+					[video ? 'addClass' : 'removeClass']('pd-box-video')
+					.html(this)
+					.show();
+			}
+
+			if (e.type === 'load') {
+				box.dispatchEvent('load', {content: preloader});
+			}
 		});
+
 		$(preloader).attr('src', href);
+
+		if (video) {
+			$(preloader)
+				.attr({
+					allowfullscreen: true,
+					width: box.options.width,
+					height: box.options.width / (16 / 9)
+				})
+				.triggerHandler('insert');
+		}
 	}
 
 	function escapeKeyHandler(e) {
