@@ -345,13 +345,13 @@ $.pdBox = (function () {
 					numbers.removeClass('active');
 					$this.addClass('active');
 
-					if (index == 0) {
+					if (index === 0) {
 						box.window.prev.addClass('hide');
 					} else {
 						box.window.prev.removeClass('hide');
 					}
 
-					if (index == numbers.size() - 1) {
+					if (index === numbers.length - 1) {
 						box.window.next.addClass('hide');
 					} else {
 						box.window.next.removeClass('hide');
@@ -373,7 +373,7 @@ $.pdBox = (function () {
 			});
 			box.$doc.on('keyup.pd', $.proxy(pageKeyHandler, box));
 
-			if (numbers.size() > 1) {
+			if (numbers.length > 1) {
 				box.window.pager.show();
 			}
 		}
@@ -430,16 +430,16 @@ $.pdBox = (function () {
 	}
 
 	function escapeKeyHandler(e) {
-		if (e.which == 27) {
+		if (e.which === 27) {
 			this.close();
 		}
 	}
 
 	function pageKeyHandler(e) {
-		if (e.which == 37) {
+		if (e.which === 37) {
 			this.window.prev.filter(':visible').trigger('click');
 
-		} else if (e.which == 39) {
+		} else if (e.which === 39) {
 			this.window.next.filter(':visible').trigger('click');
 		}
 
@@ -459,7 +459,7 @@ $.pdBox = (function () {
 
 	function windowElemClickHandler(e) {
 		var $el = $(e.target).closest('a');
-		if(e.target == this.window.elem[0] || (this.window.elem.has(e.target).length && ($el.hasClass('pd-box-close') || $el.hasClass('pd-box-close-alter')))) {
+		if(e.target === this.window.elem[0] || (this.window.elem.has(e.target).length && ($el.hasClass('pd-box-close') || $el.hasClass('pd-box-close-alter')))) {
 			this.close();
 			e.preventDefault();
 		}
