@@ -8,14 +8,14 @@ $.pdBox = (function () {
 		lang: ($('html').attr('lang') || 'cs')
 	};
 	var langs = {
-		cs: { close: "Zavřít", prev: "předchozí", next: "další" },
-		en: { close: "Close", prev: "previous", next: "next" },
-		de: { close: "Zumachen", prev: "vorige", next: "folgend" },
-		es: { close: "Vaer", prev: "previo", next: "siguiente" },
-		fr: { close: "Fermer", prev: "précédant", next: "suivant" },
-		it: { close: "Chiudere", prev: "previo", next: "veniente" },
-		sk: { close: "Zavrieť", prev: "predchádzajúca", next: "ďalšie" },
-		ru: { close: "закрыть", prev: "предшествующий", next: "последующий" }
+		cs: { close: "Zavřít",   prev: "Předchozí",      next: "Další" },
+		sk: { close: "Zavrieť",  prev: "Predchádzajúca", next: "Ďalšie" },
+		en: { close: "Close",    prev: "Previous",       next: "Next" },
+		de: { close: "Zumachen", prev: "Vorige",         next: "Folgend" },
+		es: { close: "Vaer",     prev: "Previo",         next: "Siguiente" },
+		fr: { close: "Fermer",   prev: "Précédant",      next: "Suivant" },
+		it: { close: "Chiudere", prev: "Previo",         next: "Veniente" },
+		ru: { close: "закрыть",  prev: "Предшествующий", next: "Последующий" }
 	};
 
 
@@ -36,6 +36,17 @@ $.pdBox = (function () {
 
 		this.options = $.extend({}, defaults, options);
 
+		if (typeof options.langs === 'object') {
+			this.langs = $.extend({}, langs, options.langs);
+		}
+		else {
+			this.langs = langs;
+		}
+
+		if (! (this.options.lang in this.langs)) {
+			this.options.lang = 'en';
+		}
+
 		this.isOpen = false;
 		this.setOnOpenOptions = false; // flag do fce setOptions, jestli byl otevřený před voláním této funkce, nebo se teprve otevírá
 		this.isAjax = options.isAjax || false;
@@ -47,7 +58,8 @@ $.pdBox = (function () {
 		this.$doc = $(document);
 		this.$body = $('body');
 		this.$html = $('html');
-		this.html = buildContent(this);
+		this.spinnerHtml = options.spinnerHtml || "<span class='pd-box-loader'></span>";
+		this.html = (typeof options.template === 'function') ? options.template(this) : buildContent(this);
 
 		this.$el = null; // element, který otevřel pdbox
 
@@ -60,18 +72,18 @@ $.pdBox = (function () {
 	function buildContent(box) {
 		$content =
 			"<div class='pd-box-content out'>"
-				+ "<h2 class='pd-box-title'></h2>"
-				+ "<div class='pd-box-desc'>"
-					+ (box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "")
-				+ "</div>"
-				+ "<p class='pd-box-pager'>"
-					+ "<a href='#' class='pd-box-prev' rel=''><span>" + langs[box.options.lang]["prev"] + "</span></a>"
-					+ "<span class='pd-box-pages'></span>"
-					+ "<a href='#' class='pd-box-next' rel=''><span>" + langs[box.options.lang]["next"] + "</span></a>"
-				+ "</p>"
-				+ "<a href='#' class='pd-box-image' title='" + langs[box.options.lang]["close"] + "'></a>"
-				+ "<span class='pd-box-loader'><span class='pd-box-loader-in'></span><span class='pd-box-loader-in-2'></span></span>"
-				+ "<a href='#' class='pd-box-close' title='" + langs[box.options.lang]["close"] + "'> " + langs[box.options.lang]["close"] + "<span></span></a>"
+			+ "<h2 class='pd-box-title'></h2>"
+			+ "<div class='pd-box-desc'>"
+			+ (box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "")
+			+ "</div>"
+			+ "<p class='pd-box-pager'>"
+			+ "<a href='#' class='pd-box-prev' rel=''><span>" + box.langs[box.options.lang]["prev"] + "</span></a>"
+			+ "<span class='pd-box-pages'></span>"
+			+ "<a href='#' class='pd-box-next' rel=''><span>" + box.langs[box.options.lang]["next"] + "</span></a>"
+			+ "</p>"
+			+ "<p class='pd-box-image'></p>"
+			+ box.spinnerHtml
+			+ "<a href='#' class='pd-box-close' title='" + box.langs[box.options.lang]["close"] + "'> " + box.langs[box.options.lang]["close"] + "</a>"
 			+ "</div>";
 
 		return $content;
@@ -177,7 +189,7 @@ $.pdBox = (function () {
 			var elOptions = {};
 
 			elOptions.width = this.$el.data('thickboxWidth');
-			elOptions.className = this.$el.data('thickboxClassName') ? this.$el.data('thickboxClassName') + ' ' + this.defaults.className : null;
+			elOptions.className = this.$el.data('thickboxClassName') ? this.$el.data('thickboxClassName') + ' ' + this.defaults.className : undefined;
 			elOptions.onOpen = this.$el.data('thickboxOnOpen');
 			elOptions.onLoad = this.$el.data('thickboxOnLoad');
 			elOptions.onClose = this.$el.data('thickboxOnClose');
@@ -339,28 +351,28 @@ $.pdBox = (function () {
 
 			numbers = $('a', box.window.pages);
 			numbers.on('click', function (e) {
-					var $this = $(this);
-					var index = numbers.index(this);
+				var $this = $(this);
+				var index = numbers.index(this);
 
-					numbers.removeClass('active');
-					$this.addClass('active');
+				numbers.removeClass('active');
+				$this.addClass('active');
 
-					if (index === 0) {
-						box.window.prev.addClass('hide');
-					} else {
-						box.window.prev.removeClass('hide');
-					}
+				if (index === 0) {
+					box.window.prev.addClass('hide');
+				} else {
+					box.window.prev.removeClass('hide');
+				}
 
-					if (index === numbers.length - 1) {
-						box.window.next.addClass('hide');
-					} else {
-						box.window.next.removeClass('hide');
-					}
+				if (index === numbers.length - 1) {
+					box.window.next.addClass('hide');
+				} else {
+					box.window.next.removeClass('hide');
+				}
 
-					loadImage(box, this.href, group.eq(index));
+				loadImage(box, this.href, group.eq(index));
 
-					e.preventDefault();
-				})
+				e.preventDefault();
+			})
 				.eq(group.index($el)).trigger('click');
 
 			box.window.prev.on('click', function (e) {
