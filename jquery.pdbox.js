@@ -189,7 +189,7 @@ $.pdBox = (function () {
 			var elOptions = {};
 
 			elOptions.width = this.$el.data('thickboxWidth');
-			elOptions.className = this.$el.data('thickboxClassName') ? this.$el.data('thickboxClassName') + ' ' + this.defaults.className : undefined;
+			elOptions.className = this.$el.data('thickboxClassName') ? this.$el.data('thickboxClassName') + ' ' + this.defaults.className : this.defaults.className;
 			elOptions.onOpen = this.$el.data('thickboxOnOpen');
 			elOptions.onLoad = this.$el.data('thickboxOnLoad');
 			elOptions.onClose = this.$el.data('thickboxOnClose');
