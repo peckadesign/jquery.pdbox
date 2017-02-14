@@ -36,6 +36,12 @@ $.pdBox = (function () {
 
 		this.options = $.extend({}, defaults, options);
 
+		// nutno převést na string, jinak nelze uložit jako součást state v history API; případné další použití např. pomocí eval()
+		if (options.template) {
+			this.options.template = options.template.toString();
+		}
+
+		// vlastní jazyky
 		if (typeof options.langs === 'object') {
 			this.langs = $.extend({}, langs, options.langs);
 		}
@@ -43,6 +49,7 @@ $.pdBox = (function () {
 			this.langs = langs;
 		}
 
+		// nastavení default jazyka, pokud neexistuje jazyk TB stejný, jako jazyk stránky
 		if (! (this.options.lang in this.langs)) {
 			this.options.lang = 'en';
 		}
