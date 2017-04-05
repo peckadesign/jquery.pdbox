@@ -1,0 +1,35 @@
+{
+	"name": "jquery.pdbox",
+	"title": "jQuery pdBox",
+	"description": "pdBox is thickbox-like jQeruy plugin developed in PeckaDesign",
+	"version": "1.1.0",
+	"author": "PeckaDesign, s.r.o <support@peckadesign.cz>",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/peckadesign/jquery.pdbox"
+	},
+	"keywords": ["jquery", "jquery-plugin", "thickbox", "lightbox", "pdbox"],
+	"bugs": "https://github.com/peckadesign/jquery.pdbox/issues",
+	"license": "MIT",
+	"homepage": "https://github.com/peckadesign/jquery.pdbox",
+	"dependencies": {
+		"jquery": ">=1.7"
+	},
+	"devDependencies": {
+		"grunt": "~0.4",
+		"grunt-cli": "~1.2",
+		"load-grunt-tasks": "~3.5",
+
+		"grunt-contrib-concat": "~1.0",
+	  	"grunt-contrib-watch": "~1.0",
+		"grunt-contrib-uglify": "~2.2",
+
+		"grunt-contrib-less": "~1.4",
+		"grunt-postcss": "~0.8",
+		"cssnano": "~3.10",
+		"autoprefixer": "~6.7"
+	},
+	"browserslist": [
+		"last 2 versions"
+	]
+}
