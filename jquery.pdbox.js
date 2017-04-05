@@ -8,14 +8,14 @@ $.pdBox = (function () {
 		lang: ($('html').attr('lang') || 'cs')
 	};
 	var langs = {
-		cs: { close: "Zavřít",   prev: "Předchozí",      next: "Další" },
-		sk: { close: "Zavrieť",  prev: "Predchádzajúca", next: "Ďalšie" },
-		en: { close: "Close",    prev: "Previous",       next: "Next" },
-		de: { close: "Zumachen", prev: "Vorige",         next: "Folgend" },
-		es: { close: "Vaer",     prev: "Previo",         next: "Siguiente" },
-		fr: { close: "Fermer",   prev: "Précédant",      next: "Suivant" },
-		it: { close: "Chiudere", prev: "Previo",         next: "Veniente" },
-		ru: { close: "закрыть",  prev: "Предшествующий", next: "Последующий" }
+		cs: { close: "Zavřít",   prev: "Předchozí",      next: "Další",       of: "/" },
+		sk: { close: "Zavrieť",  prev: "Predchádzajúca", next: "Ďalšie",      of: "/" },
+		en: { close: "Close",    prev: "Previous",       next: "Next",        of: "/" },
+		de: { close: "Zumachen", prev: "Vorige",         next: "Folgend",     of: "/" },
+		es: { close: "Vaer",     prev: "Previo",         next: "Siguiente",   of: "/" },
+		fr: { close: "Fermer",   prev: "Précédant",      next: "Suivant",     of: "/" },
+		it: { close: "Chiudere", prev: "Previo",         next: "Veniente",    of: "/" },
+		ru: { close: "закрыть",  prev: "Предшествующий", next: "Последующий", of: "/" }
 	};
 
 
@@ -78,20 +78,21 @@ $.pdBox = (function () {
 
 	function buildContent(box) {
 		$content =
-			"<div class='pd-box-content out'>"
-			+ "<h2 class='pd-box-title'></h2>"
-			+ "<div class='pd-box-desc'>"
-			+ (box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "")
-			+ "</div>"
-			+ "<p class='pd-box-pager'>"
-			+ "<a href='#' class='pd-box-prev' rel=''><span>" + box.langs[box.options.lang]["prev"] + "</span></a>"
-			+ "<span class='pd-box-pages'></span>"
-			+ "<a href='#' class='pd-box-next' rel=''><span>" + box.langs[box.options.lang]["next"] + "</span></a>"
-			+ "</p>"
-			+ "<p class='pd-box-image'></p>"
-			+ box.spinnerHtml
-			+ "<a href='#' class='pd-box-close' title='" + box.langs[box.options.lang]["close"] + "'> " + box.langs[box.options.lang]["close"] + "</a>"
-			+ "</div>";
+			"<div class='pd-box-content out'>" +
+			"	<h2 class='pd-box-title'></h2>" +
+			"	<div class='pd-box-desc'>" +
+			+		(box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "") +
+			"	</div>" +
+			"	<p class='pd-box-pager'>" +
+			"		<a href='#' class='pd-box-prev' rel=''><span>" + box.langs[box.options.lang]["prev"] + "</span></a>" +
+			"		<span class='pd-box-pages'></span>" +
+			"		<span class='pd-box-pages-summary'><span class='pd-box-active-page'></span>" + box.langs[box.options.lang]["of"] + "<span class='pd-box-pages-count'></span></span>" +
+			"		<a href='#' class='pd-box-next' rel=''><span>" + box.langs[box.options.lang]["next"] + "</span></a>" +
+			"	</p>" +
+			"	<p class='pd-box-image'></p>" +
+			+	box.spinnerHtml +
+			"	<a href='#' class='pd-box-close' title='" + box.langs[box.options.lang]["close"] + "'> " + box.langs[box.options.lang]["close"] + "</a>" +
+			"</div>";
 
 		return $content;
 	}
@@ -126,11 +127,11 @@ $.pdBox = (function () {
 
 		this.$body.addClass('pd-box-open');
 
-		this.window.pager.hide();
+		this.window.pager.elem.hide();
 		this.window.image.hide();
 		this.window.title.hide();
 
-		if (typeof $el != 'undefined' && typeof selector != 'undefined' && $el.is(':not(.ajax)')) {
+		if (typeof $el !== 'undefined' && typeof selector !== 'undefined' && $el.is(':not(.ajax)')) {
 			groupBox(this, $el, selector);
 		}
 	};
@@ -318,10 +319,17 @@ $.pdBox = (function () {
 		box.window.descWrap = box.window.elem.find('.pd-box-desc');
 		box.window.desc = box.window.elem.find('.pd-box-snippet');
 		if (! box.window.desc.length) box.window.desc = box.window.descWrap;
-		box.window.pager = box.window.elem.find('.pd-box-pager');
-		box.window.pages = box.window.elem.find('.pd-box-pages');
-		box.window.prev = box.window.elem.find('.pd-box-prev');
-		box.window.next = box.window.elem.find('.pd-box-next');
+
+		box.window.pager = {
+			elem: box.window.elem.find('.pd-box-pager'),
+			pages: box.window.elem.find('.pd-box-pages'),
+			pagesSummary: box.window.elem.find('.pd-box-pages-summary'),
+			activePage: box.window.elem.find('.pd-box-active-page'),
+			pagesCount: box.window.elem.find('.pd-box-pages-count'),
+			prev: box.window.elem.find('.pd-box-prev'),
+			next: box.window.elem.find('.pd-box-next')
+		};
+
 		box.window.image = box.window.elem.find('.pd-box-image');
 
 		$(document).on('click', '.pd-box-close, .pd-box-close-alter', $.proxy(windowElemClickHandler, box));
@@ -335,9 +343,9 @@ $.pdBox = (function () {
 
 	function hideBox(box) {
 		box.window.close.off();
-		box.window.next.off();
-		box.window.prev.off();
-		box.window.pages.find('a').off();
+		box.window.pager.next.off();
+		box.window.pager.prev.off();
+		box.window.pager.pages.find('a').off();
 
 		box.$doc.off('keyup.pd');
 
@@ -354,46 +362,50 @@ $.pdBox = (function () {
 			group.each(function (i) {
 				htmlPages += " <a href='" + this.href + "'>" + (i + 1) + "</a> ";
 			});
-			box.window.pages.empty().append(htmlPages);
+			box.window.pager.pages.empty().append(htmlPages);
 
-			numbers = $('a', box.window.pages);
-			numbers.on('click', function (e) {
-				var $this = $(this);
-				var index = numbers.index(this);
+			$numbers = box.window.pager.pages.find('a');
+			$numbers
+				.on('click', function (e) {
+					var $this = $(this);
+					var index = $numbers.index(this);
 
-				numbers.removeClass('active');
-				$this.addClass('active');
+					$numbers.removeClass('active');
+					$this.addClass('active');
 
-				if (index === 0) {
-					box.window.prev.addClass('hide');
-				} else {
-					box.window.prev.removeClass('hide');
-				}
+					box.window.pager.activePage.text(index + 1);
 
-				if (index === numbers.length - 1) {
-					box.window.next.addClass('hide');
-				} else {
-					box.window.next.removeClass('hide');
-				}
+					if (index === 0) {
+						box.window.pager.prev.addClass('disabled');
+					} else {
+						box.window.pager.prev.removeClass('disabled');
+					}
 
-				loadImage(box, this.href, group.eq(index));
+					if (index === $numbers.length - 1) {
+						box.window.pager.next.addClass('disabled');
+					} else {
+						box.window.pager.next.removeClass('disabled');
+					}
 
-				e.preventDefault();
-			})
+					loadImage(box, this.href, group.eq(index));
+
+					e.preventDefault();
+				})
 				.eq(group.index($el)).trigger('click');
 
-			box.window.prev.on('click', function (e) {
-				$('.active', box.window.pages).prev().trigger('click');
+			box.window.pager.prev.on('click', function (e) {
+				box.window.pager.pages.find('.active').prev().trigger('click');
 				e.preventDefault();
 			});
-			box.window.next.on('click', function (e) {
-				$('.active', box.window.pages).next().trigger('click');
+			box.window.pager.next.on('click', function (e) {
+				box.window.pager.pages.find('.active').next().trigger('click');
 				e.preventDefault();
 			});
 			box.$doc.on('keyup.pd', $.proxy(pageKeyHandler, box));
 
-			if (numbers.length > 1) {
-				box.window.pager.show();
+			if ($numbers.length > 1) {
+				box.window.pager.elem.show();
+				box.window.pager.pagesCount.text($numbers.length);
 			}
 		}
 	}
@@ -456,10 +468,10 @@ $.pdBox = (function () {
 
 	function pageKeyHandler(e) {
 		if (e.which === 37) {
-			this.window.prev.filter(':visible').trigger('click');
+			this.window.pager.prev.not('.disabled').trigger('click');
 
 		} else if (e.which === 39) {
-			this.window.next.filter(':visible').trigger('click');
+			this.window.pager.next.not('.disabled').trigger('click');
 		}
 
 		e.preventDefault();
