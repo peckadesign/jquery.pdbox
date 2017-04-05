@@ -81,7 +81,7 @@ $.pdBox = (function () {
 			"<div class='pd-box-content out'>" +
 			"	<h2 class='pd-box-title'></h2>" +
 			"	<div class='pd-box-desc'>" +
-			+		(box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "") +
+					(box.isAjax ? "<div id='snippet--pdbox' class='pd-box-snippet'></div>" : "") +
 			"	</div>" +
 			"	<p class='pd-box-pager'>" +
 			"		<a href='#' class='pd-box-prev' rel=''><span>" + box.langs[box.options.lang]["prev"] + "</span></a>" +
@@ -90,7 +90,7 @@ $.pdBox = (function () {
 			"		<a href='#' class='pd-box-next' rel=''><span>" + box.langs[box.options.lang]["next"] + "</span></a>" +
 			"	</p>" +
 			"	<p class='pd-box-image'></p>" +
-			+	box.spinnerHtml +
+				box.spinnerHtml +
 			"	<a href='#' class='pd-box-close' title='" + box.langs[box.options.lang]["close"] + "'> " + box.langs[box.options.lang]["close"] + "</a>" +
 			"</div>";
 
