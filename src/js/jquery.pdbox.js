@@ -158,7 +158,7 @@ $.pdBox = (function () {
 			groupBox(this, $el, selector);
 		}
 
-		this.dispatchEvent('afterOpen');
+		this.dispatchEvent('afterOpen', {element: $el});
 	};
 
 	PdBox.prototype.close = function () {
