@@ -17,6 +17,22 @@ $ cat bower.json
 
 ## Changelog
 
+### v1.1.0
+<!--
+- přechod z callbacků na eventy?
+-->
+- v případě použití peckadesign/pd.ajax je nutné použít verzi `~1.1`
+- přejmování data atributů pro nastavení TB, místo `thickbox` se nově používá prefix `pdbox`
+- lepší práce s eventy umožňující nastavit callbacky globálně pro danou instanci pdboxu 
+- změny v (nejen) názvech callbacků:
+  - `onBeforeOpen` místo ~~`onOpen`~~ vyvolaný před otevřením pdBoxu
+  - `onAfterOpen` nový callback vyvolaný po otevření pdBoxu a nastavení class a šířky podle elementu
+  - `load` zůstává, je vyvolaný při načtení obsahu pdBoxu
+  - `onBeforeClose` místo ~~`onClose`~~ vyvolaný před zavřením pdBoxu
+  - `onAfterClose` zůstává  vyvolaný po zavření pdBoxu
+- přechod na BEM pojemnovávání CSS class a s tím související změny v HTML struktuře
+- stránkování obsahuje informaci o stránce z kolika, na které právě jsme
+
 ### v1.0.3
 - oprava skrývání/zobrazování `.pd-box-desc` v obrázkovém thickboxu
 

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>pdBox example</title>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script src="../dist/js/jquery.pdbox.js"></script>
+	<script>
+		$(function () {
+
+			var pdBox = window.pdBox || {};
+			pdBox.foo = function (e) {
+				console.log('onAfterOpen, callback from element');
+			};
+			window.pdBox = pdBox;
+
+
+			// these callbacks cannot be set using data attributes, since beforeOpen callback is called before opening element is processed!
+			onBeforeOpenCallbacks = [
+				function () {
+					console.log('onBeforeOpen, callback 1');
+				},
+				function () {
+					console.log('onBeforeOpen, callback 2');
+				}
+			];
+
+			var box = new $.pdBox({
+				width: 1400,
+				imageThumbnails: true,
+				onBeforeOpen: onBeforeOpenCallbacks, // array or object
+				onAfterOpen: function () {
+					console.log('onAfterOpen')
+				},
+				onLoad: function () {
+					console.log('onLoad');
+				},
+				onBeforeClose: function () {
+					console.log('onBeforeClose');
+				},
+				onAfterClose: function () {
+					console.log('onAfterClose');
+				}
+			});
+
+			$(document)
+				.on('click', '.js-pdbox', function (e) {
+					e.preventDefault();
+
+					box.open($(this), '.js-pdbox');
+				});
+
+		});
+	</script>
+
+	<link rel="stylesheet" type="text/css" href="../dist/css/pdbox.css" media="screen">
+
+</head>
+<body>
+
+
+	<ul>
+		<!-- k načtení nedojde, protože automatické načítání z url není podporované; možno udělat přes box.openUrl(); tady pouze pro test callbacků a data atributů obecně -->
+		<li><a href="../README.md" class="js-pdbox" data-pdbox-width="900" data-pdbox-class-name="foo-bar" data-pdbox-on-opened="pdBox.foo">Readme file</a></li>
+		<li>
+			Image gallery
+			<ul>
+				<li><a href="https://unsplash.it/1920/1080/?image=1057" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1057" data-pdbox-on-opened="pdBox.foo" class="js-pdbox" data-rel="images" title="Image 1">Image 1</a></li>
+				<li><a href="https://unsplash.it/1920/1080/?image=1037" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1037" class="js-pdbox" data-rel="images" title="Image 2">Image 2</a></li>
+				<li><a href="https://unsplash.it/1920/1080/?image=1017" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1017" class="js-pdbox" data-rel="images" title="Image 3">Image 3</a></li>
+				<li><a href="https://unsplash.it/1920/1080/?image=1043" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1043" class="js-pdbox" data-rel="images" title="Image 4">Image 4</a></li>
+			</ul>
+		</li>
+	</ul>
+
+
+
+</body>
+</html>
