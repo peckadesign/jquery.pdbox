@@ -408,9 +408,11 @@ $.pdBox = (function () {
 	}
 
 	function groupBox(box, $el, selector) {
-		var $all = $(selector);
 		var rel = $el.data('rel');
 		if (rel) {
+			var $all = $(selector);
+			var $thumbnails = $([]);
+
 			var group = $all.filter('[data-rel="' + rel + '"]');
 
 			var htmlPages = '';
