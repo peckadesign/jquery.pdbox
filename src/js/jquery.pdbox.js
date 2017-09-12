@@ -450,6 +450,13 @@ $.pdBox = (function () {
 					$numbers.removeClass('pdbox__page--active');
 					$this.addClass('pdbox__page--active');
 
+					if ($thumbnails.length) {
+						$thumbnails.removeClass('pdbox__thumbnail-link--active');
+						$thumbnails
+							.eq(index)
+							.addClass('pdbox__thumbnail-link--active');
+					}
+
 					box.window.pager.activePage.text(index + 1);
 
 					if (index === 0) {
@@ -473,9 +480,6 @@ $.pdBox = (function () {
 			if ($thumbnails.length) {
 				$thumbnails.on('click.pdbox', function (e) {
 					e.preventDefault();
-
-					$thumbnails.removeClass('pdbox__thumbnail-link--active');
-					$(this).addClass('pdbox__thumbnail-link--active');
 
 					$numbers.eq($thumbnails.index(this)).trigger('click.pdbox');
 				})
