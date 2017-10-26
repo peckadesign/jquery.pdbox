@@ -17,6 +17,10 @@ $ cat bower.json
 
 ## Changelog
 
+### v1.1.1
+- oprava #8
+- oprava data atributů pro navázání onAfterOpen callbacku na elementu v příkladu
+
 ### v1.1.0
 <!--
 - přechod z callbacků na eventy?
