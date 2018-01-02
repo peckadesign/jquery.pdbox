@@ -170,8 +170,6 @@ $.pdBox = (function () {
 
 			this.dispatchEvent('beforeClose');
 
-			this.options.onOpen = this.options.onLoad = this.options.onClose = null;
-
 			this.window.elem.off();
 
 			hideBox(this);

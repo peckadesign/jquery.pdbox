@@ -3,7 +3,7 @@
  * https://github.com/peckadesign/jquery.pdbox
  *
  * @author  <>
- * @copyright Copyright (c) 2014-2017 
+ * @copyright Copyright (c) 2014-2018 
  * @license MIT
  *
  * @version 1.1.0
@@ -180,7 +180,7 @@ $.pdBox = (function () {
 
 			this.dispatchEvent('beforeClose');
 
-			this.options.onOpen = this.options.onLoad = this.options.onClose = null;
+			// this.options.onOpen = this.options.onLoad = this.options.onClose = null;
 
 			this.window.elem.off();
 

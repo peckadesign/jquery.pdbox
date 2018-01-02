@@ -13,6 +13,15 @@
 			pdBox.foo = function (e) {
 				console.log('onAfterOpen, callback from element');
 			};
+			pdBox.elLoad = function (e) {
+				console.log('onLoad, callback from element');
+			};
+			pdBox.elBeforeClose = function (e) {
+				console.log('onBeforeClose, callback from element');
+			};
+			pdBox.elAfterClose = function (e) {
+				console.log('onAfterClose, callback from element');
+			};
 			window.pdBox = pdBox;
 
 
@@ -66,7 +75,7 @@
 		<li>
 			Image gallery
 			<ul>
-				<li><a href="https://unsplash.it/1920/1080/?image=1057" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1057" data-pdbox-on-after-open="pdBox.foo" class="js-pdbox" data-rel="images" title="Image 1">Image 1</a></li>
+				<li><a href="https://unsplash.it/1920/1080/?image=1057" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1057" data-pdbox-on-after-open="pdBox.foo" data-pdbox-on-load="pdBox.elLoad" data-pdbox-on-before-close="pdBox.elBeforeClose" data-pdbox-on-after-close="pdBox.elAfterClose" class="js-pdbox" data-rel="images" title="Image 1">Image 1</a></li>
 				<li><a href="https://unsplash.it/1920/1080/?image=1037" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1037" class="js-pdbox" data-rel="images" title="Image 2">Image 2</a></li>
 				<li><a href="https://unsplash.it/1920/1080/?image=1017" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1017" class="js-pdbox" data-rel="images" title="Image 3">Image 3</a></li>
 				<li><a href="https://unsplash.it/1920/1080/?image=1043" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1043" class="js-pdbox" data-rel="images" title="Image 4">Image 4</a></li>
