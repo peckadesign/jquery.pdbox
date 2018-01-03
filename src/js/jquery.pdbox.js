@@ -120,7 +120,7 @@ $.pdBox = (function () {
 		return $content;
 	}
 
-	PdBox.prototype.open = function ($el, selector) {
+	PdBox.prototype.open = function ($el, selector, loadedContent) {
 		this.$el = $el;
 
 		if ( ! this.isOpen) {
@@ -130,7 +130,9 @@ $.pdBox = (function () {
 			showBox(this);
 			showOverlay(this);
 
-			this.rootElem.addClass('pdbox--loading');
+			if (! loadedContent) {
+				this.rootElem.addClass('pdbox--loading');
+			}
 
 			if (this.isInner) {
 				this.rootElem.addClass('pdbox--inner');
@@ -324,7 +326,7 @@ $.pdBox = (function () {
 	PdBox.prototype.openHtml = function (html, $el) {
 		var title = $el.data('pdbox-title');
 
-		this.open($el);
+		this.open($el, undefined, true);
 
 		this.window.descWrap.show();
 		this.window.desc.html(html);
@@ -337,8 +339,9 @@ $.pdBox = (function () {
 		this.dispatchEvent('load', {content: html});
 	};
 
-	PdBox.prototype.openUrl = function (href) {
-		this.open();
+	PdBox.prototype.openUrl = function (href, $el) {
+		this.open($el, undefined, false);
+
 		$.ajax({
 			url: href,
 			success: $.proxy(function (content) {
