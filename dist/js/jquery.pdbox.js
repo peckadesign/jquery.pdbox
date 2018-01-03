@@ -2,11 +2,11 @@
  * jQuery pdBox - pdBox is thickbox-like jQeruy plugin developed in PeckaDesign 
  * https://github.com/peckadesign/jquery.pdbox
  *
- * @author  <>
- * @copyright Copyright (c) 2014-2018 
+ * @author PeckaDesign, s.r.o <support@peckadesign.cz>
+ * @copyright Copyright (c) 2014-2018 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.1.0
+ * @version 1.1.2
  */
 $.pdBox = (function () {
 

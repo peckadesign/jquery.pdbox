@@ -18,6 +18,7 @@ $ cat bower.json
 ## Changelog
 
 ### v1.1.2 draft
+- oprava autora v `package.json`
 - při použití metody `openHtml` opraveno probliknutí spinneru na pozadí
 - při použití metody `openUrl` je možno předat element, ze kterého se přeberou options (napr. odkaz, na který se kliklo)
 - oprava [#9](https://github.com/peckadesign/jquery.pdbox/issues/9)

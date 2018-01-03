@@ -2,8 +2,11 @@
 	"name": "jquery.pdbox",
 	"title": "jQuery pdBox",
 	"description": "pdBox is thickbox-like jQeruy plugin developed in PeckaDesign",
-	"version": "1.1.0",
-	"author": "PeckaDesign, s.r.o <support@peckadesign.cz>",
+	"version": "1.1.2-draft",
+	"author": {
+		"name":"PeckaDesign, s.r.o",
+		"email": "support@peckadesign.cz"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/peckadesign/jquery.pdbox"
