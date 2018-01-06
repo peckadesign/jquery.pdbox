@@ -3,8 +3,14 @@
   top: auto;
   left: -10000px;
 }
-body.pdbox-open {
+.pdbox-open {
   overflow: hidden;
+}
+.pdbox-open--scrollbar-offset {
+  margin-right: var(--pdbox-scrollbar-width, 0);
+}
+.pdbox-open--scrollbar-offset .pdbox__window {
+  overflow-y: scroll;
 }
 .pdbox__window {
   position: fixed;
@@ -13,10 +19,12 @@ body.pdbox-open {
   right: 0;
   bottom: 0;
   z-index: 502;
-  overflow-x: auto;
-  overflow-y: scroll;
+  overflow: auto;
   line-height: 100vh;
   text-align: center;
+}
+.pdbox__window--scrollbar-offset {
+  margin-left: var(--pdbox-scrollbar-width, 0);
 }
 @media (min-width: 590px) {
   .pdbox__window {
@@ -104,26 +112,6 @@ body.pdbox-open {
   margin: 0 10px 15px;
   overflow: hidden;
   text-align: center;
-}
-.pdbox__image:before {
-  display: block;
-  height: 0;
-  padding-top: 56.25%;
-  content: "";
-}
-.pdbox__image img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: auto;
-  padding: 0;
-  border: none;
 }
 @media (min-width: 768px) {
   .pdbox__image {

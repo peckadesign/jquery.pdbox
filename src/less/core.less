@@ -1,9 +1,19 @@
-body.pdbox-open { overflow:hidden; }
+.pdbox-open {
+	overflow:hidden;
+
+	&--scrollbar-offset {
+		margin-right:var(--pdbox-scrollbar-width, 0);
+
+		.pdbox__window { overflow-y:scroll; }
+	}
+}
 
 .pdbox {
 
 	&__window {
-		position:fixed; top:0; left:0; right:0; bottom:0; z-index:502; overflow-x:auto; overflow-y:scroll; line-height:100vh; text-align:center;
+		position:fixed; top:0; left:0; right:0; bottom:0; z-index:502; overflow:auto; line-height:100vh; text-align:center;
+
+		&--scrollbar-offset { margin-left:var(--pdbox-scrollbar-width, 0); }
 
 		@media @w590 { padding:0 5px; }
 		@media @w768 { padding:0 20px; }
@@ -26,8 +36,9 @@ body.pdbox-open { overflow:hidden; }
 	&__image {
 		position:relative; display:block; padding:0; margin:0 10px 15px; overflow:hidden; text-align:center;
 
-		&:before { display:block; height:0; padding-top:1080/1920*100%; content:""; }
-		img { .img--responsive; .img--center; padding:0; border:none; }
+		//&:before { display:block; height:0; padding-top:1080/1920*100%; content:""; }
+		//img { .img--responsive; .img--center; padding:0; border:none; }
+
 
 		@media @w768 {
 			margin:0 20px 20px;
