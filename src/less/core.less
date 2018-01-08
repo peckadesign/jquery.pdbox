@@ -1,15 +1,20 @@
+@pdbox-overlay-opacity:.54;
+
+:root {
+	--pdbox-closing-duration:200ms;
+}
+
 .pdbox-open {
 	overflow:hidden;
 
 	&--scrollbar-offset {
-		padding-right:var(--pdbox-scrollbar-width, 0);
+		margin-right:var(--pdbox-scrollbar-width, 0);
 
 		.pdbox__window { overflow-y:scroll; }
 	}
 }
 
 .pdbox {
-
 	&__window {
 		position:fixed; top:0; left:0; right:0; bottom:0; z-index:502; overflow:auto; line-height:100vh; text-align:center;
 
@@ -19,12 +24,9 @@
 		@media @w768 { padding:0 20px; }
 		@media @w960 { padding:0 30px; }
 	}
-	&__overlay { position:absolute; top:0; left:0; right:0; bottom:0; z-index:501; padding:0; overflow:hidden; background-color:#000; opacity:.54; transform:translateZ(0); }
 
-	&--inner &__window { z-index:504; }
-	&--inner &__overlay { z-index:503; }
-
-	&--loading &__spinner { opacity:1; visibility:visible; transition-delay:0s; }
+	&__content, &__overlay { animation:pdbox__open forwards 300ms ease; }
+	&__overlay { position:absolute; top:0; left:0; right:0; bottom:0; z-index:501; padding:0; overflow:hidden; background-color:#000; opacity:@pdbox-overlay-opacity; animation-name:pdbox__open--overlay; transform:translateZ(0); }
 
 	&__spinner {
 		position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(255,255,255,.8); opacity:0; visibility:hidden; transition:visibility 0s linear 200ms, opacity 200ms ease;
@@ -38,7 +40,6 @@
 
 		//&:before { display:block; height:0; padding-top:1080/1920*100%; content:""; }
 		//img { .img--responsive; .img--center; padding:0; border:none; }
-
 
 		@media @w768 {
 			margin:0 20px 20px;
@@ -72,9 +73,38 @@
 		&:before { position:absolute; top:0; left:0; width:100%; height:100%; margin:0; text-align:center; font-size:30px; content:'×'; }
 		&:hover{ color:@color-link-hover; }
 	}
+
+
+	// Modifiers
+	&--inner &__window  { z-index:504; }
+	&--inner &__overlay { z-index:503; }
+
+	&--loading &__spinner { opacity:1; visibility:visible; transition-delay:0s; }
+
+	&--closing &__content, &--closing &__overlay { animation-duration:var(--pdbox-closing-duration, 0ms); }
+	&--closing &__content { animation-name:pdbox__close; }
+	&--closing &__overlay { animation-name:pdbox__close--overlay; }
 }
 
 @keyframes pdbox__spinner {
-	0%   { transform:rotate(0deg) }
-	100% { transform:rotate(360deg) }
+	0%   { transform:rotate(0deg); }
+	100% { transform:rotate(360deg); }
+}
+
+@keyframes pdbox__open {
+	0%   { opacity:0; transform:translate3d(0, -100%, 0); }
+	100% { opacity:1; transform:translate3d(0, 0, 0); }
+}
+@keyframes pdbox__close {
+	0%   { opacity:1; transform:translate3d(0, 0, 0); }
+	100% { opacity:0; transform:translate3d(0, -100%, 0); }
+}
+
+@keyframes pdbox__open--overlay {
+	0%   { opacity:0; }
+	100% { opacity:@pdbox-overlay-opacity; }
+}
+@keyframes pdbox__close--overlay {
+	0%   { opacity:@pdbox-overlay-opacity; }
+	100% { opacity:0; }
 }
