@@ -94,6 +94,11 @@ $.pdBox = (function () {
 			this.rootElem.removeClass('pdbox--loading');
 		});
 
+
+		this.addEventListener('afterOpen', checkScrollbars);
+		this.addEventListener('load',      checkScrollbars);
+
+		createPdboxStylesheet();
 	}
 
 	function buildContent(box) {
@@ -126,7 +131,10 @@ $.pdBox = (function () {
 		if ( ! this.isOpen) {
 			this.isOpen = true;
 			this.setOnOpenOptions = true;
+			this.isBodyOverflowing = isBodyOverflowing();
+
 			this.dispatchEvent('beforeOpen', {element: $el});
+
 			showBox(this);
 			showOverlay(this);
 
@@ -177,7 +185,7 @@ $.pdBox = (function () {
 			hideBox(this);
 
 			if ( ! this.isInner) {
-				this.$body.removeClass('pdbox-open');
+				this.$body.removeClass('pdbox-open pdbox-open--scrollbar-offset');
 			}
 
 			this.dispatchEvent('afterClose');
@@ -571,6 +579,68 @@ $.pdBox = (function () {
 
 		e.preventDefault();
 	}
+
+
+	/************** scrollbar **************/
+
+	function checkScrollbars() {
+		if (this.isBodyOverflowing) {
+			this.$body.addClass('pdbox-open--scrollbar-offset');
+		}
+		else {
+			if (isPdboxOverflowing(this)) {
+				this.window.elem.addClass('pdbox__window--scrollbar-offset');
+			}
+			else {
+				this.window.elem.removeClass('pdbox__window--scrollbar-offset');
+			}
+		}
+	}
+
+	function isBodyOverflowing() {
+		var rect = document.body.getBoundingClientRect();
+
+		return rect.left + rect.right < window.innerWidth;
+	}
+
+	function isPdboxOverflowing(box) {
+		return box.window.elem && box.window.elem[0].scrollHeight > document.documentElement.clientHeight;
+	}
+
+	function createPdboxStylesheet() {
+		var styleEl = document.createElement('style');
+		document.head.appendChild(styleEl);
+
+		var styleSheet = styleEl.sheet;
+		styleSheet.insertRule(':root { --pdbox-scrollbar-width:' + getScrollbarWidth() + 'px; }', styleSheet.cssRules.length);
+	}
+
+	function getScrollbarWidth() {
+		var inner = document.createElement('p');
+		inner.style.width = "100%";
+		inner.style.height = "200px";
+
+		var outer = document.createElement('div');
+		outer.style.position = "absolute";
+		outer.style.top = "0px";
+		outer.style.left = "0px";
+		outer.style.visibility = "hidden";
+		outer.style.width = "200px";
+		outer.style.height = "150px";
+		outer.style.overflow = "hidden";
+		outer.appendChild (inner);
+
+		document.body.appendChild(outer);
+		var w1 = inner.offsetWidth;
+		outer.style.overflow = 'scroll';
+		var w2 = inner.offsetWidth;
+		if (w1 === w2) w2 = outer.clientWidth;
+
+		document.body.removeChild(outer);
+
+		return (w1 - w2);
+	}
+
 
 	/*************** overlay ***************/
 

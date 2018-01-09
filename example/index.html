@@ -68,22 +68,25 @@
 </head>
 <body>
 
+	<div id="main">
 
-	<ul>
-		<!-- k načtení nedojde, protože automatické načítání z url není podporované; možno udělat přes box.openUrl(); tady pouze pro test callbacků a data atributů obecně -->
-		<li><a href="../README.md" class="js-pdbox" data-pdbox-width="900" data-pdbox-class-name="foo-bar" data-pdbox-on-after-open="pdBox.foo">Readme file</a></li>
-		<li>
-			Image gallery
-			<ul>
-				<li><a href="https://unsplash.it/1920/1080/?image=1057" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1057" data-pdbox-on-after-open="pdBox.foo" data-pdbox-on-load="pdBox.elLoad" data-pdbox-on-before-close="pdBox.elBeforeClose" data-pdbox-on-after-close="pdBox.elAfterClose" class="js-pdbox" data-rel="images" title="Image 1">Image 1</a></li>
-				<li><a href="https://unsplash.it/1920/1080/?image=1037" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1037" class="js-pdbox" data-rel="images" title="Image 2">Image 2</a></li>
-				<li><a href="https://unsplash.it/1920/1080/?image=1017" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1017" class="js-pdbox" data-rel="images" title="Image 3">Image 3</a></li>
-				<li><a href="https://unsplash.it/1920/1080/?image=1043" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1043" class="js-pdbox" data-rel="images" title="Image 4">Image 4</a></li>
-			</ul>
-		</li>
-	</ul>
+		<div id="fixed"></div>
 
+		<ul>
+			<!-- k načtení nedojde, protože automatické načítání z url není podporované; možno udělat přes box.openUrl(); tady pouze pro test callbacků a data atributů obecně -->
+			<li><a href="../README.md" class="js-pdbox" data-pdbox-width="900" data-pdbox-class-name="foo-bar" data-pdbox-on-after-open="pdBox.foo">Readme file</a></li>
+			<li>
+				Image gallery
+				<ul>
+					<li><a href="https://unsplash.it/1920/1080/?image=1057" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1057" data-pdbox-on-after-open="pdBox.foo" data-pdbox-on-load="pdBox.elLoad" data-pdbox-on-before-close="pdBox.elBeforeClose" data-pdbox-on-after-close="pdBox.elAfterClose" class="js-pdbox" data-rel="images" title="Image 1">Image 1</a></li>
+					<li><a href="https://unsplash.it/1920/1080/?image=1037" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1037" class="js-pdbox" data-rel="images" title="Image 2">Image 2</a></li>
+					<li><a href="https://unsplash.it/1920/1080/?image=1016" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1016" class="js-pdbox" data-rel="images" title="Image 3">Image 3</a></li>
+					<li><a href="https://unsplash.it/160/90/?image=1043" data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1043" class="js-pdbox" data-rel="images" title="Image 4">Image 4</a></li>
+				</ul>
+			</li>
+		</ul>
 
+	</div>
 
 </body>
 </html>
