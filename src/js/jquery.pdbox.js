@@ -178,17 +178,23 @@ $.pdBox = (function () {
 
 			this.removeEventListener('load', this.setOptions);
 
+			this.rootElem.addClass('pdbox--closing');
 			this.dispatchEvent('beforeClose');
 
 			this.window.elem.off();
 
-			hideBox(this);
+			var closingDuration = parseInt(getComputedStyle(this.rootElem[0]).getPropertyValue('--pdbox-closing-duration') || 0);
 
-			if ( ! this.isInner) {
-				this.$body.removeClass('pdbox-open pdbox-open--scrollbar-offset');
-			}
+			var that = this;
+			setTimeout(function() {
+				hideBox(that);
 
-			this.dispatchEvent('afterClose');
+				if ( ! that.isInner) {
+					that.$body.removeClass('pdbox-open pdbox-open--scrollbar-offset');
+				}
+
+				that.dispatchEvent('afterClose');
+			}, closingDuration);
 		}
 	};
 
