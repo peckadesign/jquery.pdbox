@@ -125,7 +125,7 @@ $.pdBox = (function () {
 			"			<span class='pdbox__pages-summary'><span class='pdbox__active-page'></span>" + box.langs[box.options.lang]["of"] + "<span class='pdbox__pages-count'></span></span>" +
 			"			<a href='#' class='pdbox__page pdbox__page--next' rel=''><span>" + box.langs[box.options.lang]["next"] + "</span></a>" +
 			"		</p>" +
-			"		<p class='pdbox__image'></p>" +
+			"		<p class='pdbox__media-box'></p>" +
 			"		<div class='pdbox__pager--thumbnails'></div>" +
 			box.spinnerHtml +
 			"		<a href='#' class='pdbox__close' title='" + box.langs[box.options.lang]["close"] + "'> " + box.langs[box.options.lang]["close"] + "</a>" +
@@ -171,7 +171,7 @@ $.pdBox = (function () {
 
 		this.window.pager.elem.hide();
 		this.window.pager.thumbnails.hide();
-		this.window.image.hide();
+		this.window.media.hide();
 		this.window.title.hide();
 
 		if (typeof $el !== 'undefined' && typeof selector !== 'undefined' && $el.is(':not(.ajax)')) {
@@ -272,7 +272,7 @@ $.pdBox = (function () {
 			.removeClass(function(i, className) {
 				var list = className.split(' ');
 				return list.filter(function(val){
-					return (val !== 'pdbox' && val !== 'pdbox--loading');
+					return (val !== 'pdbox' && val !== 'pdbox--loading' && val !== 'pdbox--media');
 				}).join(' ');
 			})
 			.addClass('pdbox')
@@ -407,15 +407,10 @@ $.pdBox = (function () {
 			thumbnails: box.window.elem.find('.pdbox__pager--thumbnails')
 		};
 
-		box.window.image = box.window.elem.find('.pdbox__image');
+		box.window.media = box.window.elem.find('.pdbox__media-box');
 
 		$(document).on('click.pdbox', '.pdbox__close, .pdbox__close--alternative', $.proxy(windowElemClickHandler, box));
 		box.$doc.on('keyup.pdbox', $.proxy(escapeKeyHandler, box));
-		box.window.image.on('click.pdbox', $.proxy(function (e) {
-			this.close();
-			e.preventDefault();
-		}, box));
-
 	}
 
 	function hideBox(box) {
@@ -424,8 +419,6 @@ $.pdBox = (function () {
 		box.window.pager.prev.off();
 		box.window.pager.pages.find('a').off();
 		box.window.pager.thumbnails.off();
-
-		box.window.image.off();
 
 		box.overlay.off();
 
@@ -498,7 +491,7 @@ $.pdBox = (function () {
 						box.window.pager.next.removeClass('pdbox__page--disabled');
 					}
 
-					loadImage(box, this.href, group.eq(index));
+					loadMedia(box, this.href, group.eq(index));
 
 					e.preventDefault();
 				})
@@ -529,12 +522,13 @@ $.pdBox = (function () {
 		}
 	}
 
-	function loadImage(box, href, $el) {
-		var $img = $('img', $el);
+	function loadMedia(box, href, $el) {
+		var $img = $el.find('img');
 		var title = $img.attr('alt') || $el.attr('title');
 		var description = $img.attr('title') || '';
+		var srcset = $el.data('pdbox-srcset');
 
-		box.rootElem.addClass('pdbox--loading');
+		box.rootElem.addClass('pdbox--loading pdbox--media');
 
 		if (title) {
 			box.window.title.show().text(title);
@@ -550,15 +544,18 @@ $.pdBox = (function () {
 		}
 
 
-		var video = $el.data('pdbox-video');
+		var isVideo = $el.data('pdbox-video');
+		var mediaClass = 'pdbox__media ' + (isVideo ? 'pdbox__media--video' : 'pdbox__media--image');
+		var attrs = {
+			src: href
+		};
 
-		preloader = document.createElement(video ? 'iframe' : 'img');
+		preloader = document.createElement(isVideo ? 'iframe' : 'img');
 
 		$(preloader).on('load insert', function (e) {
 			// video vkládáme na onload událost, iframe musíme vložit manuálně při jiné události (onload nenastane pro iframe, které nejsou v DOM)
-			if ((! video && e.type === 'load') || (video && e.type === 'insert')) {
-				box.window.image
-					[video ? 'addClass' : 'removeClass']('pdbox__video')
+			if ((! isVideo && e.type === 'load') || (isVideo && e.type === 'insert')) {
+				box.window.media
 					.html(this)
 					.show();
 			}
@@ -568,16 +565,27 @@ $.pdBox = (function () {
 			}
 		});
 
-		$(preloader).attr('src', href);
 
-		if (video) {
-			$(preloader)
-				.attr({
-					allowfullscreen: true,
-					width: box.options.width,
-					height: box.options.width / (16 / 9)
-				})
-				.triggerHandler('insert');
+		if (isVideo) {
+			attrs.allowfullscreen = true;
+			attrs.width = box.options.width;
+			attrs.height = box.options.width / (16 / 9);
+		} else if (srcset) {
+			attrs.srcset = srcset;
+
+			// sizes mají význam pouze v kombinaci se srcset
+			var sizes = $el.data('pdbox-sizes');
+			if (sizes || (sizes = box.options.sizes)) {
+				attrs.sizes = sizes;
+			}
+		}
+
+		$(preloader)
+			.addClass(mediaClass)
+			.attr(attrs);
+
+		if (isVideo) {
+			$(preloader).triggerHandler('insert');
 		}
 	}
 
