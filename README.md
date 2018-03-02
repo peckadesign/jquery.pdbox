@@ -17,11 +17,13 @@ $ cat bower.json
 
 ## Changelog
 
-### v1.1.2 draft
+### v1.2.0
+- **BC break:** při použití metody `setOptions` s parametrem `options` je nově nutné poslat jako druhý parametr `true` pro rozlišení mezi skutečným options a contextem
 - oprava autora v `package.json`
 - při použití metody `openHtml` opraveno probliknutí spinneru na pozadí
 - při použití metody `openUrl` je možno předat element, ze kterého se přeberou options (napr. odkaz, na který se kliklo)
 - oprava [#9](https://github.com/peckadesign/jquery.pdbox/issues/9)
+- do callbacku `onLoad` se předává element, který otevřel pdbox, stejně jako do ostatních callbacků
 
 ### v1.1.1
 - oprava [#8](https://github.com/peckadesign/jquery.pdbox/issues/8)

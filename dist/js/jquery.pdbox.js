@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2018 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.1.2-draft
+ * @version 1.2.0
  */
 $.pdBox = (function () {
 
@@ -117,7 +117,7 @@ $.pdBox = (function () {
 			"	<div class='pdbox__content'>" +
 			"		<h2 class='pdbox__title'></h2>" +
 			"		<div class='pdbox__desc'>" +
-						(box.isAjax ? "<div id='snippet--pdbox' class='pdbox__snippet'></div>" : "") +
+			(box.isAjax ? "<div id='snippet--pdbox' class='pdbox__snippet'></div>" : "") +
 			"		</div>" +
 			"		<p class='pdbox__pager'>" +
 			"			<a href='#' class='pdbox__page pdbox__page--prev' rel=''><span>" + box.langs[box.options.lang]["prev"] + "</span></a>" +
@@ -127,7 +127,7 @@ $.pdBox = (function () {
 			"		</p>" +
 			"		<p class='pdbox__image'></p>" +
 			"		<div class='pdbox__pager--thumbnails'></div>" +
-					box.spinnerHtml +
+			box.spinnerHtml +
 			"		<a href='#' class='pdbox__close' title='" + box.langs[box.options.lang]["close"] + "'> " + box.langs[box.options.lang]["close"] + "</a>" +
 			"	</div>" +
 			"</div>";
@@ -224,9 +224,10 @@ $.pdBox = (function () {
 	 * Nastaví vlastnosti pdboxu v pořadí defaults, nastavení z inicializace, nastavení z data atributů elementu,
 	 * který tb otevřel. Pokud je předán atribut options, použije se nsatavení z tohoto atributu.
 	 *
-	 * @param options
+	 * @param options		předané options
+	 * @param isOptions		flag, zda jde opravdu o options a ne kontext předaný z onLoad callbacku
 	 */
-	PdBox.prototype.setOptions = function (options) {
+	PdBox.prototype.setOptions = function (options, isOptions) {
 		var e;
 		var optName;
 		var dataName;
@@ -238,7 +239,7 @@ $.pdBox = (function () {
 
 			// slouží k ad-hoc handlerům, proto můžeme smazat
 			for (e in events) {
-				 optName = getEventOptName(events[e]);
+				optName = getEventOptName(events[e]);
 
 				this.options[optName] = null;
 			}
@@ -261,12 +262,13 @@ $.pdBox = (function () {
 			$.extend(this.options, elOptions);
 		}
 
-		if (options) {
+		// pokud byly předány options, ověříme, že jde skutečně o options a ne o context předaný v rámci onLoad callbacku
+		if (options && isOptions) {
 			$.extend(this.options, options);
 		}
 
 		this.rootElem
-			// odstraníme všechny class krom "pdbox" a případné "pdbox--loading"
+		// odstraníme všechny class krom "pdbox" a případné "pdbox--loading"
 			.removeClass(function(i, className) {
 				var list = className.split(' ');
 				return list.filter(function(val){
@@ -360,7 +362,7 @@ $.pdBox = (function () {
 			this.window.title.hide();
 		}
 
-		this.dispatchEvent('load', {content: html});
+		this.dispatchEvent('load', {element: $el, content: html});
 	};
 
 	PdBox.prototype.openUrl = function (href, $el) {
@@ -371,7 +373,7 @@ $.pdBox = (function () {
 			success: $.proxy(function (content) {
 				this.window.descWrap.show();
 				this.window.desc.html(content);
-				this.dispatchEvent('load', {content: content});
+				this.dispatchEvent('load', {element: $el, content: content});
 			}, this)
 		});
 	};
@@ -562,7 +564,7 @@ $.pdBox = (function () {
 			}
 
 			if (e.type === 'load') {
-				box.dispatchEvent('load', {content: preloader});
+				box.dispatchEvent('load', {element: $el, content: preloader});
 			}
 		});
 
