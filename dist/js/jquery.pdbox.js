@@ -318,7 +318,7 @@ $.pdBox = (function () {
 		var name = getEventOptName(type);
 		if (this.options[name]) {
 			var func = getFunction(this.options[name], window);
-			if (func !== null) func(data);
+			if (func !== null) func.call(this, data);
 		}
 	};
 

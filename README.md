@@ -17,6 +17,9 @@ $ cat bower.json
 
 ## Changelog
 
+### v1.2.1-draft
+- oprava [#16](https://github.com/peckadesign/jquery.pdbox/issues/16)
+
 ### v1.2.0
 - **BC break:** při použití metody `setOptions` s parametrem `options` je nově nutné poslat jako druhý parametr `true` pro rozlišení mezi skutečným options a contextem
 - oprava autora v `package.json`
