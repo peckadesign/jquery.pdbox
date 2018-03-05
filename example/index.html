@@ -46,6 +46,12 @@
 				width: 1400,
 				imageThumbnails: true,
 				onBeforeOpen: onBeforeOpenCallbacks, // array or object
+				sizes:
+					"(min-width: 1460px) 1340px," +
+					"(min-width: 960px) calc(100vw - (2 * 30px) - (2 * 30px))," +
+					"(min-width: 768px) calc(100vw - (2 * 20px) - (2 * 20px))," +
+					"(min-width: 590px) calc(100vw - (2 *  5px) - (2 * 10px))," +
+					"calc(100vw - (2 * 10px))",
 				onAfterOpen: function () {
 					console.log('onAfterOpen')
 				},
@@ -88,7 +94,7 @@
 					<li>
 						<a href="https://unsplash.it/1920/1080/?image=1057"
 							 data-pdbox-thumbnail="https://unsplash.it/160/90/?image=1057"
-							 data-pdbox-image-srcset="
+							 data-pdbox-srcset="
 							 	https://unsplash.it/300/169/?image=1057 300w,
 							 	https://unsplash.it/600/338/?image=1057 600w,
 							 	https://unsplash.it/900/506/?image=1057 900w,
@@ -96,12 +102,6 @@
 							 	https://unsplash.it/1340/754/?image=1057 1340w,
 							 	https://unsplash.it/1800/1013/?image=1057 1800w,
 								https://unsplash.it/2680/1508/?image=1057 2680w"
-							 data-pdbox-image-sizes="
-							 	(min-width: 1460px) 1340px,
-							 	(min-width: 960px) calc(100vw - (2 * 30px) - (2 * 30px)),
-							 	(min-width: 768px) calc(100vw - (2 * 20px) - (2 * 20px)),
-							 	(min-width: 590px) calc(100vw - (2 *  5px) - (2 * 10px)),
-							 	calc(100vw - (2 * 10px))"
 							 data-pdbox-on-after-open="pdBox.foo"
 							 data-pdbox-on-load="pdBox.elLoad"
 							 data-pdbox-on-before-close="pdBox.elBeforeClose"

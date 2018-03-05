@@ -17,8 +17,14 @@ $ cat bower.json
 
 ## Changelog
 
-### v1.2.1-draft
+### v1.3.0
 - oprava [#16](https://github.com/peckadesign/jquery.pdbox/issues/16)
+- kliknutí na obrázek již nezavírá pdbox
+- podpora pro responsivní obrázky v pdboxu [#13](https://github.com/peckadesign/jquery.pdbox/issues/13)
+  - **BC break:** přejmenování class ~~`pdbox__image`~~ a ~~`pdbox__video`~~ na jednotné `pdbox__media-box` s BEM modifikátorem pro rozližení videa (`pdbox__media-box--video`) a obrázku (`pdbox__media-box--image`)
+  - použitím atributu `data-pdbox-srcset` na odkazu lze nastavit `srcset` pro obrázek v pdboxu
+  - přidáno nové options `sizes` pro nastavení rozměrů pdboxu, hodnota se použije jako atribut `sizes` na obrázku
+  - pomocí atributu `data-pdbox-sizes` na odkazu lze přepsat výchozí `sizes`, například je-li nějaký speciální pdbox pro obrázky jinak velký
 
 ### v1.2.0
 - **BC break:** při použití metody `setOptions` s parametrem `options` je nově nutné poslat jako druhý parametr `true` pro rozlišení mezi skutečným options a contextem

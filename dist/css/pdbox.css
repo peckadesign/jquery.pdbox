@@ -169,7 +169,6 @@
 .pdbox__pager--thumbnails {
   padding: 0;
   margin: 0;
-  list-style: none;
   white-space: nowrap;
   overflow-x: auto;
   overflow-y: hidden;
@@ -177,6 +176,7 @@
 .pdbox__thumbnail-list {
   padding: 0;
   margin: 1em 10px;
+  list-style: none;
 }
 .pdbox__thumbnail-item {
   display: inline-block;

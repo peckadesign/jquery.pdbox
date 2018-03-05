@@ -272,7 +272,7 @@ $.pdBox = (function () {
 			.removeClass(function(i, className) {
 				var list = className.split(' ');
 				return list.filter(function(val){
-					return (val !== 'pdbox' && val !== 'pdbox--loading');
+					return (val !== 'pdbox' && val !== 'pdbox--loading' && val !== 'pdbox--media');
 				}).join(' ');
 			})
 			.addClass('pdbox')
@@ -411,11 +411,6 @@ $.pdBox = (function () {
 
 		$(document).on('click.pdbox', '.pdbox__close, .pdbox__close--alternative', $.proxy(windowElemClickHandler, box));
 		box.$doc.on('keyup.pdbox', $.proxy(escapeKeyHandler, box));
-		box.window.media.on('click.pdbox', $.proxy(function (e) {
-			this.close();
-			e.preventDefault();
-		}, box));
-
 	}
 
 	function hideBox(box) {
@@ -424,8 +419,6 @@ $.pdBox = (function () {
 		box.window.pager.prev.off();
 		box.window.pager.pages.find('a').off();
 		box.window.pager.thumbnails.off();
-
-		box.window.media.off();
 
 		box.overlay.off();
 
@@ -533,10 +526,9 @@ $.pdBox = (function () {
 		var $img = $el.find('img');
 		var title = $img.attr('alt') || $el.attr('title');
 		var description = $img.attr('title') || '';
-		var srcset = $el.data('pdbox-image-srcset');
-		var sizes = $el.data('pdbox-image-sizes');
+		var srcset = $el.data('pdbox-srcset');
 
-		box.rootElem.addClass('pdbox--loading');
+		box.rootElem.addClass('pdbox--loading pdbox--media');
 
 		if (title) {
 			box.window.title.show().text(title);
@@ -578,12 +570,12 @@ $.pdBox = (function () {
 			attrs.allowfullscreen = true;
 			attrs.width = box.options.width;
 			attrs.height = box.options.width / (16 / 9);
-		} else {
-			if (srcset) {
-				attrs.srcset = srcset
-			}
+		} else if (srcset) {
+			attrs.srcset = srcset;
 
-			if (sizes) {
+			// sizes mají význam pouze v kombinaci se srcset
+			var sizes = $el.data('pdbox-sizes');
+			if (sizes || (sizes = box.options.sizes)) {
 				attrs.sizes = sizes;
 			}
 		}
