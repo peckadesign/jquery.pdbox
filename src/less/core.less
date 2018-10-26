@@ -62,7 +62,7 @@
 	}
 	&__pages-summary { display:inline-block; margin:0 5px; vertical-align:middle; }
 
-	&__pager--thumbnails { padding:0; margin:0; white-space:nowrap; overflow-x:auto; overflow-y:hidden; }
+	&__pager--thumbnails { position:relative; z-index:1; padding:0; margin:0; white-space:nowrap; overflow-x:auto; overflow-y:hidden; }
 
 	&__thumbnail-list { padding:0; margin:1em 10px; list-style:none; }
 	&__thumbnail-item { display:inline-block; padding:0; margin:0; vertical-align:top; }
@@ -82,6 +82,9 @@
 	&--inner &__overlay { z-index:503; }
 
 	&--loading &__spinner { opacity:1; visibility:visible; transition-delay:0s; }
+
+	// Skrytí obrázku při načítání
+	//&--loading&--media &__media-box { display:none !important; }
 
 	&--closing &__content, &--closing &__overlay { animation-duration:var(--pdbox-closing-duration, 0ms); }
 	&--closing &__content { animation-name:pdbox__close; }

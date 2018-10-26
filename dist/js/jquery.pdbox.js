@@ -530,6 +530,8 @@ $.pdBox = (function () {
 
 		box.rootElem.addClass('pdbox--loading pdbox--media');
 
+		box.window.media.show();
+
 		if (title) {
 			box.window.title.show().text(title);
 		} else {
@@ -555,9 +557,7 @@ $.pdBox = (function () {
 		$(preloader).on('load insert', function (e) {
 			// video vkládáme na onload událost, iframe musíme vložit manuálně při jiné události (onload nenastane pro iframe, které nejsou v DOM)
 			if ((! isVideo && e.type === 'load') || (isVideo && e.type === 'insert')) {
-				box.window.media
-					.html(this)
-					.show();
+				box.window.media.html(this);
 			}
 
 			if (e.type === 'load') {
