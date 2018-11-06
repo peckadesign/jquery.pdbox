@@ -17,6 +17,11 @@ $ cat bower.json
 
 ## Changelog
 
+### v1.3.1
+- přidáno nové option `inifinitePager`, výchozí hodnota je `false`, v případě `true` se pomocí šipek lze přepínat stále dokola (tj. z posledního na první šipkou doprava, z prvního na poslední šipkou doleva)
+- u obrázkového pdboxu je element pro obrázek (`.pdbox__media-box`) zobrazen i při otevření, pro obrázek je tak rezervované místo
+- do defaults přidána výchozí hodnota pro option `imageThumbnails` (bez vlivu na funčknost, pouze pro přehlednost) 
+
 ### v1.3.0
 - oprava [#16](https://github.com/peckadesign/jquery.pdbox/issues/16)
 - kliknutí na obrázek již nezavírá pdbox
@@ -53,6 +58,7 @@ $ cat bower.json
   - `onAfterClose` zůstává  vyvolaný po zavření pdBoxu
 - přechod na BEM pojemnovávání CSS class a s tím související změny v HTML struktuře
 - stránkování obsahuje informaci o stránce z kolika, na které právě jsme
+- přidáno option `imageThumbnails` umožňující vypsat krom klasického stránkování i náhledové obrázky; náhledy se berou z odkazu z data atibutu `data-pdbox-thumbnail` 
 
 ### v1.0.3
 - oprava skrývání/zobrazování `.pd-box-desc` v obrázkovém thickboxu

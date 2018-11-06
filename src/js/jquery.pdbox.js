@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2018 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.1.2-draft
+ * @version 1.3.1
  */
 $.pdBox = (function () {
 
@@ -15,6 +15,8 @@ $.pdBox = (function () {
 	var defaults = {
 		width: 900,
 		className: '',
+		imageThumbnails: false,
+		infinitePager: false,
 		lang: ($('html').attr('lang') || 'cs')
 	};
 	var langs = {
@@ -37,12 +39,16 @@ $.pdBox = (function () {
 
 		options = options || {};
 
+		// Překopírujeme všechny hodnoty s přepsáním z předaných options
 		this.defaults = {};
-		this.defaults.width = defaults.width;
-		this.defaults.className = defaults.className;
+		for (var i in defaults) {
+			if (defaults.hasOwnProperty(i)) {
+				this.defaults[i] = (typeof options[i] !== 'undefined') ? options[i] : defaults[i];
+			}
+		}
+		// className se nepřepisuje, ale spojuje, zpracujeme zvlášť
+		this.defaults.className = defaults.className + ((options.className) ? ' ' + options.className : '');
 
-		if (options.width)     this.defaults.width = options.width;
-		if (options.className) this.defaults.className += ' ' + options.className;
 
 		this.options = $.extend({}, defaults, options);
 
@@ -75,7 +81,6 @@ $.pdBox = (function () {
 		this.window = {};
 		this.$doc = $(document);
 		this.$body = $('body');
-		this.$html = $('html');
 		this.spinnerHtml = options.spinnerHtml || "<span class='pdbox__spinner'></span>";
 		this.html = (typeof options.template === 'function') ? options.template(this) : buildContent(this);
 
@@ -479,16 +484,18 @@ $.pdBox = (function () {
 
 					box.window.pager.activePage.text(index + 1);
 
-					if (index === 0) {
-						box.window.pager.prev.addClass('pdbox__page--disabled');
-					} else {
-						box.window.pager.prev.removeClass('pdbox__page--disabled');
-					}
+					if (! box.options.infinitePager) {
+						if (index === 0) {
+							box.window.pager.prev.addClass('pdbox__page--disabled');
+						} else {
+							box.window.pager.prev.removeClass('pdbox__page--disabled');
+						}
 
-					if (index === $numbers.length - 1) {
-						box.window.pager.next.addClass('pdbox__page--disabled');
-					} else {
-						box.window.pager.next.removeClass('pdbox__page--disabled');
+						if (index === $numbers.length - 1) {
+							box.window.pager.next.addClass('pdbox__page--disabled');
+						} else {
+							box.window.pager.next.removeClass('pdbox__page--disabled');
+						}
 					}
 
 					loadMedia(box, this.href, group.eq(index));
@@ -507,11 +514,29 @@ $.pdBox = (function () {
 
 			box.window.pager.prev.on('click.pdbox', function (e) {
 				e.preventDefault();
-				box.window.pager.pages.find('.pdbox__page--active').prev().trigger('click.pdbox');
+
+				var $prevPage = box.window.pager.pages.find('.pdbox__page--active').prev();
+
+				if ($prevPage.length === 0 && box.options.infinitePager) {
+					$prevPage = box.window.pager.pages.find('.pdbox__page').last();
+				}
+
+				if ($prevPage.length) {
+					$prevPage.trigger('click.pdbox');
+				}
 			});
 			box.window.pager.next.on('click.pdbox', function (e) {
 				e.preventDefault();
-				box.window.pager.pages.find('.pdbox__page--active').next().trigger('click.pdbox');
+
+				var $nextPage = box.window.pager.pages.find('.pdbox__page--active').next();
+
+				if ($nextPage.length === 0 && box.options.infinitePager) {
+					$nextPage = box.window.pager.pages.find('.pdbox__page').first();
+				}
+
+				if ($nextPage.length) {
+					$nextPage.trigger('click.pdbox');
+				}
 			});
 			box.$doc.on('keyup.pdbox', $.proxy(pageKeyHandler, box));
 
