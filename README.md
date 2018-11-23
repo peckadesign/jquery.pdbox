@@ -17,6 +17,9 @@ $ cat bower.json
 
 ## Changelog
 
+### v1.3.2
+- obrázek lze v pdboxu otevřít i bez atributu `data-rel`
+
 ### v1.3.1
 - přidáno nové option `inifinitePager`, výchozí hodnota je `false`, v případě `true` se pomocí šipek lze přepínat stále dokola (tj. z posledního na první šipkou doprava, z prvního na poslední šipkou doleva)
 - u obrázkového pdboxu je element pro obrázek (`.pdbox__media-box`) zobrazen i při otevření, pro obrázek je tak rezervované místo

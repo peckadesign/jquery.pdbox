@@ -545,6 +545,9 @@ $.pdBox = (function () {
 				box.window.pager.pagesCount.text($numbers.length);
 			}
 		}
+		else {
+			loadMedia(box, $el.attr('href'), $el);
+		}
 	}
 
 	function loadMedia(box, href, $el) {

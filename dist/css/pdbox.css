@@ -100,7 +100,6 @@
   transform: translateZ(0);
   vertical-align: middle;
   line-height: normal;
-  animation-duration: 300ms;
 }
 .pdbox__media-box {
   position: relative;
