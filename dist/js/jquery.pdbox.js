@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2018 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.3.1
+ * @version 1.3.3
  */
 $.pdBox = (function () {
 
@@ -544,9 +544,6 @@ $.pdBox = (function () {
 				box.window.pager.elem.show();
 				box.window.pager.pagesCount.text($numbers.length);
 			}
-		}
-		else {
-			loadMedia(box, $el.attr('href'), $el);
 		}
 	}
 

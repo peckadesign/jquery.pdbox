@@ -17,6 +17,9 @@ $ cat bower.json
 
 ## Changelog
 
+### v1.3.3
+- revert zpět k funkcionalitě z 1.3.1; 1.3.2 potenciálně rozbíjí AJAXové formuláře uvnitř pdboxu
+
 ### v1.3.2
 - obrázek lze v pdboxu otevřít i bez atributu `data-rel`
 
