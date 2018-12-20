@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2018 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.3.3
+ * @version 1.3.4
  */
 $.pdBox = (function () {
 
@@ -549,8 +549,8 @@ $.pdBox = (function () {
 
 	function loadMedia(box, href, $el) {
 		var $img = $el.find('img');
-		var title = $img.attr('alt') || $el.attr('title');
-		var description = $img.attr('title') || '';
+		var title = $el.data('pdbox-title') || $img.attr('alt') || $el.attr('title');
+		var description = $el.data('pdbox-description') || $img.attr('title') || '';
 		var srcset = $el.data('pdbox-srcset');
 
 		box.rootElem.addClass('pdbox--loading pdbox--media');

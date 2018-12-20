@@ -17,6 +17,9 @@ $ cat bower.json
 
 ## Changelog
 
+### v1.3.4
+- titulek a popis v pdboxu je možno nastavit pomocí data atributů na odkazu (`data-pdbox-title` a `data-pdbox-description`)
+
 ### v1.3.3
 - revert zpět k funkcionalitě z 1.3.1; 1.3.2 potenciálně rozbíjí AJAXové formuláře uvnitř pdboxu
 
