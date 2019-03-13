@@ -3,7 +3,7 @@
  * https://github.com/peckadesign/jquery.pdbox
  *
  * @author PeckaDesign, s.r.o <support@peckadesign.cz>
- * @copyright Copyright (c) 2014-2018 PeckaDesign, s.r.o
+ * @copyright Copyright (c) 2014-2019 PeckaDesign, s.r.o
  * @license MIT
  *
  * @version 1.3.4
@@ -81,6 +81,7 @@ $.pdBox = (function () {
 		this.window = {};
 		this.$doc = $(document);
 		this.$body = $('body');
+		this.$html = $('html');
 		this.spinnerHtml = options.spinnerHtml || "<span class='pdbox__spinner'></span>";
 		this.html = (typeof options.template === 'function') ? options.template(this) : buildContent(this);
 
@@ -172,7 +173,7 @@ $.pdBox = (function () {
 
 		this.window.elem.on('click', $.proxy(windowElemClickHandler, this));
 
-		this.$body.addClass('pdbox-open');
+		this.$html.addClass('pdbox-open');
 
 		this.window.pager.elem.hide();
 		this.window.pager.thumbnails.hide();
@@ -205,7 +206,7 @@ $.pdBox = (function () {
 				hideBox(that);
 
 				if ( ! that.isInner) {
-					that.$body.removeClass('pdbox-open pdbox-open--scrollbar-offset');
+					that.$html.removeClass('pdbox-open pdbox-open--scrollbar-offset');
 				}
 
 				that.dispatchEvent('afterClose');
@@ -636,7 +637,7 @@ $.pdBox = (function () {
 
 	function checkScrollbars() {
 		if (this.isBodyOverflowing) {
-			this.$body.addClass('pdbox-open--scrollbar-offset');
+			this.$html.addClass('pdbox-open--scrollbar-offset');
 		}
 		else {
 			if (isPdboxOverflowing(this)) {
