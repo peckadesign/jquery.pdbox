@@ -273,14 +273,15 @@ $.pdBox = (function () {
 		}
 
 		this.rootElem
-		// odstraníme všechny class krom "pdbox" a případné "pdbox--loading"
+			// odstraníme všechny class krom povolených interních modifikátorů
 			.removeClass(function(i, className) {
 				var list = className.split(' ');
+				var allowedClass = ['pdbox', 'pdbox--loading', 'pdbox--media', 'pdbox--inner'];
+
 				return list.filter(function(val){
-					return (val !== 'pdbox' && val !== 'pdbox--loading' && val !== 'pdbox--media');
+					return allowedClass.indexOf(val) === -1;
 				}).join(' ');
 			})
-			.addClass('pdbox')
 			.addClass(this.options.className);
 
 		this.window.content.css({

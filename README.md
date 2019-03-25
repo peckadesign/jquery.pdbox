@@ -17,6 +17,9 @@ $ cat bower.json
 
 ## Changelog
 
+### v1.3.5
+- oprava smazaného modifikátoru `pdbox--inner` při použití option `isInner` u pdboxu
+
 ### v1.3.4
 - titulek a popis v pdboxu je možno nastavit pomocí data atributů na odkazu (`data-pdbox-title` a `data-pdbox-description`)
 
