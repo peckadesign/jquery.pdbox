@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2018 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.3.1
+ * @version 1.3.6
  */
 $.pdBox = (function () {
 
@@ -188,13 +188,15 @@ $.pdBox = (function () {
 
 	PdBox.prototype.close = function () {
 		if (this.isOpen) {
+			var $el = this.$el;
+
 			this.isOpen = false;
 			this.$el = null;
 
 			this.removeEventListener('load', this.setOptions);
 
 			this.rootElem.addClass('pdbox--closing');
-			this.dispatchEvent('beforeClose');
+			this.dispatchEvent('beforeClose', {element: $el});
 
 			this.window.elem.off();
 
@@ -208,7 +210,7 @@ $.pdBox = (function () {
 					that.$body.removeClass('pdbox-open pdbox-open--scrollbar-offset');
 				}
 
-				that.dispatchEvent('afterClose');
+				that.dispatchEvent('afterClose', {element: $el});
 			}, closingDuration);
 		}
 	};

@@ -17,6 +17,9 @@ $ cat bower.json
 
 ## Changelog
 
+### v1.3.6
+- do `onBeforeClose` a `onAfterClose` callbacků se předává objekt, obsahující element, který pdbox otevřel; stejně jako do ostatních callbacků, viz příklad 
+
 ### v1.3.5
 - oprava smazaného modifikátoru `pdbox--inner` při použití option `isInner` u pdboxu
 

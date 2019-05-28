@@ -17,16 +17,20 @@
 		$(function () {
 
 			var pdBox = window.pdBox || {};
-			pdBox.foo = function (e) {
+			pdBox.foo = function (context) {
+				console.log(context);
 				console.log('onAfterOpen, callback from element');
 			};
-			pdBox.elLoad = function (e) {
+			pdBox.elLoad = function (context) {
+				console.log(context);
 				console.log('onLoad, callback from element');
 			};
-			pdBox.elBeforeClose = function (e) {
+			pdBox.elBeforeClose = function (context) {
+				console.log(context);
 				console.log('onBeforeClose, callback from element');
 			};
-			pdBox.elAfterClose = function (e) {
+			pdBox.elAfterClose = function (context) {
+				console.log(context);
 				console.log('onAfterClose, callback from element');
 			};
 			window.pdBox = pdBox;
@@ -34,10 +38,12 @@
 
 			// these callbacks cannot be set using data attributes, since beforeOpen callback is called before opening element is processed!
 			onBeforeOpenCallbacks = [
-				function () {
+				function (context) {
+					console.log(context);
 					console.log('onBeforeOpen, callback 1');
 				},
-				function () {
+				function (context) {
+					console.log(context);
 					console.log('onBeforeOpen, callback 2');
 				}
 			];
@@ -53,16 +59,20 @@
 					"(min-width: 590px) calc(100vw - (2 *  5px) - (2 * 10px))," +
 					"calc(100vw - (2 * 10px))",
 				onBeforeOpen: onBeforeOpenCallbacks, // array or object
-				onAfterOpen: function () {
+				onAfterOpen: function (context) {
+					console.log(context);
 					console.log('onAfterOpen')
 				},
-				onLoad: function () {
+				onLoad: function (context) {
+					console.log(context);
 					console.log('onLoad');
 				},
-				onBeforeClose: function () {
+				onBeforeClose: function (context) {
+					console.log(context);
 					console.log('onBeforeClose');
 				},
-				onAfterClose: function () {
+				onAfterClose: function (context) {
+					console.log(context);
 					console.log('onAfterClose');
 				}
 			});
