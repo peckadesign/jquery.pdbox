@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2018 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.3.6
+ * @version 1.3.7
  */
 $.pdBox = (function () {
 
@@ -325,8 +325,12 @@ $.pdBox = (function () {
 		// support for ad-hoc listeners
 		var name = getEventOptName(type);
 		if (this.options[name]) {
-			var func = getFunction(this.options[name], window);
-			if (func !== null) func.call(this, data);
+			var funcArray = this.options[name].split(' ');
+
+			for(i = 0; i < funcArray.length; i++) {
+				var func = getFunction(funcArray[i].trim(), window);
+				if (func !== null) func.call(this, data);
+			}
 		}
 	};
 

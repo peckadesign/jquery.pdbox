@@ -17,6 +17,9 @@ $ cat bower.json
 
 ## Changelog
 
+### v1.3.7
+- přes data atribut je nyní možné předat více než jeden callback; jednotlivé callbacky se oddělují mezerou, viz příklad
+
 ### v1.3.6
 - do `onBeforeClose` a `onAfterClose` callbacků se předává objekt, obsahující element, který pdbox otevřel; stejně jako do ostatních callbacků, viz příklad 
 

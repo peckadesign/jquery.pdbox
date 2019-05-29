@@ -19,7 +19,11 @@
 			var pdBox = window.pdBox || {};
 			pdBox.foo = function (context) {
 				console.log(context);
-				console.log('onAfterOpen, callback from element');
+				console.log('onAfterOpen, callback 2 from element');
+			};
+			pdBox.elAfterOpen = function (context) {
+				console.log(context);
+				console.log('onAfterOpen, callback 1 from element');
 			};
 			pdBox.elLoad = function (context) {
 				console.log(context);
@@ -113,7 +117,7 @@
 							 	https://unsplash.it/1340/754/?image=1057 1340w,
 							 	https://unsplash.it/1800/1013/?image=1057 1800w,
 								https://unsplash.it/2680/1508/?image=1057 2680w"
-							 data-pdbox-on-after-open="pdBox.foo"
+							 data-pdbox-on-after-open="pdBox.elAfterOpen pdBox.foo"
 							 data-pdbox-on-load="pdBox.elLoad"
 							 data-pdbox-on-before-close="pdBox.elBeforeClose"
 							 data-pdbox-on-after-close="pdBox.elAfterClose"
