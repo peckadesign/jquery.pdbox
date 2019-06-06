@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2019 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.3.7
+ * @version 1.3.8
  */
 $.pdBox = (function () {
 

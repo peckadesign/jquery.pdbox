@@ -25,6 +25,7 @@
   overflow: auto;
   line-height: 100vh;
   text-align: center;
+  -webkit-overflow-scrolling: touch;
 }
 .pdbox__window--scrollbar-offset {
   margin-left: var(--pdbox-scrollbar-width, 0);

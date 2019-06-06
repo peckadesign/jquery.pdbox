@@ -17,6 +17,10 @@ $ cat bower.json
 
 ## Changelog
 
+
+### v1.3.8
+- oprava scrollování pdboxu na iOS
+
 ### v1.3.7
 - přes data atribut je nyní možné předat více než jeden callback; jednotlivé callbacky se oddělují mezerou, viz příklad
 
