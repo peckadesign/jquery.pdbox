@@ -1,13 +1,3 @@
-/**
- * jQuery pdBox - pdBox is thickbox-like jQeruy plugin developed in PeckaDesign
- * https://github.com/peckadesign/jquery.pdbox
- *
- * @author PeckaDesign, s.r.o <support@peckadesign.cz>
- * @copyright Copyright (c) 2014-2018 PeckaDesign, s.r.o
- * @license MIT
- *
- * @version 1.3.8
- */
 $.pdBox = (function () {
 
 	/*************** configuration ***************/
@@ -16,6 +6,11 @@ $.pdBox = (function () {
 		width: 900,
 		className: '',
 		imageThumbnails: false,
+		imageThumbnailsAlign: {
+			behavior: 'smooth',
+			block: 'nearest',
+			inline: 'center'
+		},
 		infinitePager: false,
 		lang: ($('html').attr('lang') || 'cs')
 	};
@@ -475,7 +470,7 @@ $.pdBox = (function () {
 
 			$numbers = box.window.pager.pages.find('a');
 			$numbers
-				.on('click.pdbox', function (e) {
+				.on('click.pdbox open.pdbox', function (e) {
 					var $this = $(this);
 					var index = $numbers.index(this);
 
@@ -487,6 +482,19 @@ $.pdBox = (function () {
 						$thumbnails
 							.eq(index)
 							.addClass('pdbox__thumbnail-link--active');
+
+
+						var imageThumbnailsAlign = box.options.imageThumbnailsAlign;
+						if (typeof box.options.imageThumbnailsAlign === 'function') {
+							imageThumbnailsAlign = box.options.imageThumbnailsAlign();
+						}
+
+						if (e.type === 'open' && typeof imageThumbnailsAlign === 'object' && imageThumbnailsAlign.behavior === 'smooth') {
+							imageThumbnailsAlign = $.extend({}, box.options.imageThumbnailsAlign);
+							imageThumbnailsAlign.behavior = 'auto';
+						}
+
+						$thumbnails[index].scrollIntoView(imageThumbnailsAlign);
 					}
 
 					box.window.pager.activePage.text(index + 1);
@@ -509,7 +517,7 @@ $.pdBox = (function () {
 
 					e.preventDefault();
 				})
-				.eq(group.index($el)).trigger('click.pdbox');
+				.eq(group.index($el)).trigger('open.pdbox');
 
 			if ($thumbnails.length) {
 				$thumbnails.on('click.pdbox', function (e) {
