@@ -47,7 +47,8 @@
 }
 .pdbox__content,
 .pdbox__overlay {
-  animation: pdbox__open forwards 300ms ease;
+  -webkit-animation: pdbox__open forwards 300ms ease;
+          animation: pdbox__open forwards 300ms ease;
 }
 .pdbox__overlay {
   position: absolute;
@@ -60,8 +61,10 @@
   overflow: hidden;
   background-color: #000;
   opacity: 0.54;
-  animation-name: pdbox__open--overlay;
-  transform: translateZ(0);
+  -webkit-animation-name: pdbox__open--overlay;
+          animation-name: pdbox__open--overlay;
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
 }
 .pdbox__spinner {
   position: absolute;
@@ -72,6 +75,7 @@
   background: rgba(255, 255, 255, 0.8);
   opacity: 0;
   visibility: hidden;
+  -webkit-transition: visibility 0s linear 200ms, opacity 200ms ease;
   transition: visibility 0s linear 200ms, opacity 200ms ease;
 }
 .pdbox__spinner:before {
@@ -86,7 +90,8 @@
   border-top-color: #333;
   border-radius: 50%;
   content: "";
-  animation: pdbox__spinner 2s linear infinite;
+  -webkit-animation: pdbox__spinner 2s linear infinite;
+          animation: pdbox__spinner 2s linear infinite;
 }
 .pdbox__content {
   position: relative;
@@ -98,7 +103,8 @@
   overflow: hidden;
   margin: 40px auto;
   background: #fff;
-  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+          transform: translateZ(0);
   vertical-align: middle;
   line-height: normal;
 }
@@ -132,8 +138,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  object-fit: scale-down;
-  object-position: 50% 50%;
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
+  -o-object-position: 50% 50%;
+     object-position: 50% 50%;
   padding: 0;
   border: none;
 }
@@ -231,44 +239,96 @@
 .pdbox--loading .pdbox__spinner {
   opacity: 1;
   visibility: visible;
-  transition-delay: 0s;
+  -webkit-transition-delay: 0s;
+          transition-delay: 0s;
 }
 .pdbox--closing .pdbox__content,
 .pdbox--closing .pdbox__overlay {
-  animation-duration: var(--pdbox-closing-duration, 0ms);
+  -webkit-animation-duration: var(--pdbox-closing-duration, 0ms);
+          animation-duration: var(--pdbox-closing-duration, 0ms);
 }
 .pdbox--closing .pdbox__content {
-  animation-name: pdbox__close;
+  -webkit-animation-name: pdbox__close;
+          animation-name: pdbox__close;
 }
 .pdbox--closing .pdbox__overlay {
-  animation-name: pdbox__close--overlay;
+  -webkit-animation-name: pdbox__close--overlay;
+          animation-name: pdbox__close--overlay;
+}
+@-webkit-keyframes pdbox__spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
 }
 @keyframes pdbox__spinner {
   0% {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
   100% {
-    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes pdbox__open {
+  0% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
   }
 }
 @keyframes pdbox__open {
   0% {
     opacity: 0;
-    transform: translate3d(0, -100%, 0);
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0);
   }
   100% {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+}
+@-webkit-keyframes pdbox__close {
+  0% {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
+  }
+  100% {
+    opacity: 0;
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0);
   }
 }
 @keyframes pdbox__close {
   0% {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+            transform: translate3d(0, 0, 0);
   }
   100% {
     opacity: 0;
-    transform: translate3d(0, -100%, 0);
+    -webkit-transform: translate3d(0, -100%, 0);
+            transform: translate3d(0, -100%, 0);
+  }
+}
+@-webkit-keyframes pdbox__open--overlay {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.54;
   }
 }
 @keyframes pdbox__open--overlay {
@@ -277,6 +337,14 @@
   }
   100% {
     opacity: 0.54;
+  }
+}
+@-webkit-keyframes pdbox__close--overlay {
+  0% {
+    opacity: 0.54;
+  }
+  100% {
+    opacity: 0;
   }
 }
 @keyframes pdbox__close--overlay {
