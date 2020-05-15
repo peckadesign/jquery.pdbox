@@ -451,7 +451,7 @@ $.pdBox = (function () {
 			if (box.options.imageThumbnails) {
 				var thumbnails = '';
 				group.each(function (i) {
-					thumbnails += "<li class='pdbox__thumbnail-item'><a href='" + this.href + "' class='pdbox__thumbnail-link'><img class='pdbox__thumbnail' src='" + $(this).data('pdbox-thumbnail') + "'></a>";
+					thumbnails += "<li class='pdbox__thumbnail-item'><a href='" + this.href + "' class='pdbox__thumbnail-link'><img class='pdbox__thumbnail' src='" + $(this).data('pdbox-thumbnail') + "'></a></li>";
 				});
 
 				box.window.pager.thumbnails
