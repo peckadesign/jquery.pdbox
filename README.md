@@ -18,6 +18,9 @@ $ cat bower.json
 ## Changelog
 
 
+### v1.3.10
+- oprava chybějícího ukončovacího tagu `li` u náhledů v pdboxu
+
 ### v1.3.9
 - přidáno option `imageThumbnailsAlign` pro automatické zascrollování náhledů oři otevření pdboxu a jeho stránkování.
 Hodnotou je buď objekt přijímaný metodou [`Element.scrollIntoView()`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView)

@@ -2,7 +2,7 @@
 	"name": "jquery.pdbox",
 	"title": "jQuery pdBox",
 	"description": "pdBox is thickbox-like jQeruy plugin developed in PeckaDesign",
-	"version": "1.3.9",
+	"version": "1.3.10",
 	"author": {
 		"name": "PeckaDesign, s.r.o",
 		"email": "support@peckadesign.cz"
