@@ -17,6 +17,8 @@ $ cat bower.json
  
 ## Changelog
 
+### v1.3.11
+- přidání rumunského (`ro`) a srbského (`sr`) překladu
 
 ### v1.3.10
 - oprava chybějícího ukončovacího tagu `li` u náhledů v pdboxu

@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2020 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.3.10
+ * @version 1.3.11
  */
 $.pdBox = (function () {
 
@@ -32,6 +32,8 @@ $.pdBox = (function () {
 		es: { close: "Vaer",     prev: "Previo",         next: "Siguiente",   of: "/" },
 		fr: { close: "Fermer",   prev: "Précédant",      next: "Suivant",     of: "/" },
 		it: { close: "Chiudere", prev: "Previo",         next: "Veniente",    of: "/" },
+		ro: { close: "Închide",  prev: "Anterior",       next: "Următor",     of: "/" },
+		sr: { close: "Blizu",    prev: "Prethodna",      next: "Sledeći",     of: "/" },
 		ru: { close: "закрыть",  prev: "Предшествующий", next: "Последующий", of: "/" }
 	};
 	var events = ['beforeOpen', 'afterOpen', 'load', 'beforeClose', 'afterClose'];
