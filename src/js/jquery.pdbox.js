@@ -84,18 +84,18 @@ $.pdBox = (function () {
 		this.$el = null; // element, který otevřel pdbox
 
 		var optName = '';
-		for (var e in events) {
-			optName = getEventOptName(events[e]);
+		for (i = 0; i < events.length; i++) {
+			optName = getEventOptName(events[i]);
 
 			if (typeof options[optName] === 'object') {
 				for (fn in options[optName]) {
 					if (options[optName].hasOwnProperty(fn) && typeof options[optName][fn] === 'function') {
-						this.addEventListener(events[e], options[optName][fn]);
+						this.addEventListener(events[i], options[optName][fn]);
 					}
 				}
 			}
 			else if (typeof options[optName] === 'function') {
-				this.addEventListener(events[e], options[optName]);
+				this.addEventListener(events[i], options[optName]);
 			}
 
 			// vymazání hodnoty, ta slouží k uchování ad-hoc handlerů přes element
@@ -232,7 +232,7 @@ $.pdBox = (function () {
 	 * @param isOptions		flag, zda jde opravdu o options a ne kontext předaný z onLoad callbacku
 	 */
 	PdBox.prototype.setOptions = function (options, isOptions) {
-		var e;
+		var i;
 		var optName;
 		var dataName;
 
@@ -242,8 +242,8 @@ $.pdBox = (function () {
 			$.extend(this.options, this.defaults);
 
 			// slouží k ad-hoc handlerům, proto můžeme smazat
-			for (e in events) {
-				optName = getEventOptName(events[e]);
+			for (i = 0; i < events.length; i++) {
+				optName = getEventOptName(events[i]);
 
 				this.options[optName] = null;
 			}
@@ -256,9 +256,9 @@ $.pdBox = (function () {
 			elOptions.width = this.$el.data('pdboxWidth');
 			elOptions.className = this.$el.data('pdboxClassName') ? this.$el.data('pdboxClassName') + ' ' + this.defaults.className : this.defaults.className;
 
-			for (e in events) {
-				dataName = getEventDataName(events[e]);
-				optName = getEventOptName(events[e]);
+			for (i = 0; i < events.length; i++) {
+				dataName = getEventDataName(events[i]);
+				optName = getEventOptName(events[i]);
 
 				elOptions[optName] = this.$el.data(dataName);
 			}
