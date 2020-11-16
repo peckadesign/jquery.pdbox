@@ -17,6 +17,9 @@ $ cat bower.json
  
 ## Changelog
 
+### v1.3.12
+- oprava iterování přes `Array`
+
 ### v1.3.11
 - přidání rumunského (`ro`) a srbského (`sr`) překladu
 
