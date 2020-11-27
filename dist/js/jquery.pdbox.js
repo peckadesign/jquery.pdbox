@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2020 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.3.12
+ * @version 1.3.13
  */
 $.pdBox = (function () {
 
@@ -193,7 +193,7 @@ $.pdBox = (function () {
 		this.dispatchEvent('afterOpen', {element: $el});
 	};
 
-	PdBox.prototype.close = function () {
+	PdBox.prototype.close = function (event) {
 		if (this.isOpen) {
 			var $el = this.$el;
 
@@ -203,7 +203,7 @@ $.pdBox = (function () {
 			this.removeEventListener('load', this.setOptions);
 
 			this.rootElem.addClass('pdbox--closing');
-			this.dispatchEvent('beforeClose', {element: $el});
+			this.dispatchEvent('beforeClose', {element: $el, event: event});
 
 			this.window.elem.off();
 
@@ -217,7 +217,7 @@ $.pdBox = (function () {
 					that.$body.removeClass('pdbox-open pdbox-open--scrollbar-offset');
 				}
 
-				that.dispatchEvent('afterClose', {element: $el});
+				that.dispatchEvent('afterClose', {element: $el, event: event});
 			}, closingDuration);
 		}
 	};
@@ -643,7 +643,7 @@ $.pdBox = (function () {
 
 	function escapeKeyHandler(e) {
 		if (e.which === 27) {
-			this.close();
+			this.close(e);
 		}
 	}
 
@@ -729,7 +729,7 @@ $.pdBox = (function () {
 	function windowElemClickHandler(e) {
 		var $el = $(e.target).closest('a');
 		if(e.target === this.window.elem[0] || (this.window.elem.has(e.target).length && ($el.hasClass('pdbox__close') || $el.hasClass('pdbox__close--alternative')))) {
-			this.close();
+			this.close(e);
 			e.preventDefault();
 		}
 	}
