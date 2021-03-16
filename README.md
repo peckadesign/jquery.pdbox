@@ -17,6 +17,9 @@ $ cat bower.json
  
 ## Changelog
 
+### v1.3.14
+- oprava srbského překladu
+
 ### v1.3.13
 - do událostí `beforeClose` a `afterClose` nově v `data` posíláme i `event`, který vyvolal zavření
 
