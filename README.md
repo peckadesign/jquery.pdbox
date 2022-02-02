@@ -17,6 +17,9 @@ $ cat bower.json
  
 ## Changelog
 
+### v1.3.15
+- přidáno option `overlayPreventClose` přes volitelný atribut `data-pdbox-overlay-prevent-close="true"` zabraňující vypnutí pdBoxu kliknutím na overlay
+
 ### v1.3.14
 - oprava srbského překladu
 

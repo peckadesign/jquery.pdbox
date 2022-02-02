@@ -3,10 +3,10 @@
  * https://github.com/peckadesign/jquery.pdbox
  *
  * @author PeckaDesign, s.r.o <support@peckadesign.cz>
- * @copyright Copyright (c) 2014-2021 PeckaDesign, s.r.o
+ * @copyright Copyright (c) 2014-2022 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.3.14
+ * @version 1.3.15
  */
 $.pdBox = (function () {
 
@@ -21,6 +21,7 @@ $.pdBox = (function () {
 			block: 'nearest',
 			inline: 'center'
 		},
+		overlayPreventClose: false,
 		infinitePager: false,
 		lang: ($('html').attr('lang') || 'cs')
 	};
@@ -265,6 +266,7 @@ $.pdBox = (function () {
 
 			elOptions.width = this.$el.data('pdboxWidth');
 			elOptions.className = this.$el.data('pdboxClassName') ? this.$el.data('pdboxClassName') + ' ' + this.defaults.className : this.defaults.className;
+			elOptions.overlayPreventClose = this.$el.data('pdboxOverlayPreventClose') ? this.$el.data('pdboxOverlayPreventClose') : this.defaults.overlayPreventClose;
 
 			for (i = 0; i < events.length; i++) {
 				dataName = getEventDataName(events[i]);
@@ -728,7 +730,11 @@ $.pdBox = (function () {
 
 	function windowElemClickHandler(e) {
 		var $el = $(e.target).closest('a');
-		if(e.target === this.window.elem[0] || (this.window.elem.has(e.target).length && ($el.hasClass('pdbox__close') || $el.hasClass('pdbox__close--alternative')))) {
+
+		if(
+			(!this.options.overlayPreventClose && e.target === this.window.elem[0])
+			|| (this.window.elem.has(e.target).length && ($el.hasClass('pdbox__close') || $el.hasClass('pdbox__close--alternative')))
+		) {
 			this.close(e);
 			e.preventDefault();
 		}
