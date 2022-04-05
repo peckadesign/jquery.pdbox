@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2022 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 1.3.15
+ * @version 1.3.16
  */
 $.pdBox = (function () {
 
@@ -454,18 +454,20 @@ $.pdBox = (function () {
 			var $all = $(selector);
 			var $thumbnails = $([]);
 
-			var group = $all.filter('[data-rel="' + rel + '"]');
+			var $group = $all.filter('[data-rel="' + rel + '"]');
 
 			var htmlPages = '';
-			group.each(function (i) {
+			$group.each(function (i) {
 				htmlPages += " <a href='" + this.href + "' class='pdbox__page'>" + (i + 1) + "</a> ";
 			});
 			box.window.pager.pages.empty().append(htmlPages);
 
 			if (box.options.imageThumbnails) {
 				var thumbnails = '';
-				group.each(function (i) {
-					thumbnails += "<li class='pdbox__thumbnail-item'><a href='" + this.href + "' class='pdbox__thumbnail-link'><img class='pdbox__thumbnail' src='" + $(this).data('pdbox-thumbnail') + "'></a></li>";
+				$group.each(function (i) {
+					var $el = $(this);
+					var alt = $el.data('pdbox-title') || $el.find('img').attr('alt') || $el.attr('title');
+					thumbnails += "<li class='pdbox__thumbnail-item'><a href='" + this.href + "' class='pdbox__thumbnail-link'><img class='pdbox__thumbnail' src='" + $el.data('pdbox-thumbnail') + "' alt='" + alt + "'></a></li>";
 				});
 
 				box.window.pager.thumbnails
@@ -527,11 +529,11 @@ $.pdBox = (function () {
 						}
 					}
 
-					loadMedia(box, this.href, group.eq(index));
+					loadMedia(box, this.href, $group.eq(index));
 
 					e.preventDefault();
 				})
-				.eq(group.index($el)).trigger('open.pdbox');
+				.eq($group.index($el)).trigger('open.pdbox');
 
 			if ($thumbnails.length) {
 				$thumbnails.on('click.pdbox', function (e) {
@@ -619,6 +621,9 @@ $.pdBox = (function () {
 			}
 		});
 
+		if (! isVideo && title) {
+			attrs.alt = title
+		}
 
 		if (isVideo) {
 			attrs.allowfullscreen = true;
