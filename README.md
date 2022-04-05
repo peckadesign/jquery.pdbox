@@ -17,6 +17,12 @@ $ cat bower.json
  
 ## Changelog
 
+### v1.3.16
+- nastavování `alt` pro obrázky uvnitř pdboxu (hlavní obrázek i případné náhledy) podle &bdquo;titulku&ldquo; pdboxu, tj. první z:
+  1. `pdbox-title` z odkazu,
+  2. `alt` obrázku (pokud existuje) v odkazu,
+  3. atribut `title` odkazu.
+
 ### v1.3.15
 - přidáno option `overlayPreventClose` přes volitelný atribut `data-pdbox-overlay-prevent-close="true"` zabraňující vypnutí pdBoxu kliknutím na overlay
 
