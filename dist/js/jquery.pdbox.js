@@ -466,7 +466,7 @@ $.pdBox = (function () {
 				var thumbnails = '';
 				$group.each(function (i) {
 					var $el = $(this);
-					var alt = $el.data('pdbox-title') || $el.find('img').attr('alt') || $el.attr('title');
+					var alt = $el.data('pdbox-title') || $el.find('img').attr('alt') || $el.attr('title') || false;
 					thumbnails += "<li class='pdbox__thumbnail-item'><a href='" + this.href + "' class='pdbox__thumbnail-link'><img class='pdbox__thumbnail' src='" + $el.data('pdbox-thumbnail') + "' alt='" + alt + "'></a></li>";
 				});
 
