@@ -25,7 +25,8 @@ $.pdBox = (function () {
 		it: { close: "Chiudere", prev: "Previo",         next: "Veniente",    of: "/" },
 		ro: { close: "Închide",  prev: "Anterior",       next: "Următor",     of: "/" },
 		sr: { close: "Zatvori",  prev: "Prethodna",      next: "Sledeći",     of: "/" },
-		ru: { close: "закрыть",  prev: "Предшествующий", next: "Последующий", of: "/" }
+		ru: { close: "закрыть",  prev: "Предшествующий", next: "Последующий", of: "/" },
+		bg: { close: "Близо",    prev: "Предишен",       next: "Следващия",   of: "/" }
 	};
 	var events = ['beforeOpen', 'afterOpen', 'load', 'beforeClose', 'afterClose'];
 

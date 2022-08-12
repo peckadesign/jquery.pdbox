@@ -17,6 +17,9 @@ $ cat bower.json
  
 ## Changelog
 
+### v1.3.17
+- přidání bulharského (`bg`) překladu
+
 ### v1.3.16
 - nastavování `alt` pro obrázky uvnitř pdboxu (hlavní obrázek i případné náhledy) podle &bdquo;titulku&ldquo; pdboxu, tj. první z:
   1. `pdbox-title` z odkazu,
