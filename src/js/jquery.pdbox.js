@@ -26,7 +26,7 @@ $.pdBox = (function () {
 		ro: { close: "Închide",  prev: "Anterior",       next: "Următor",     of: "/" },
 		sr: { close: "Zatvori",  prev: "Prethodna",      next: "Sledeći",     of: "/" },
 		ru: { close: "закрыть",  prev: "Предшествующий", next: "Последующий", of: "/" },
-		bg: { close: "Близо",    prev: "Предишен",       next: "Следващия",   of: "/" }
+		bg: { close: "Затвори",  prev: "Предишен",       next: "Следващия",   of: "/" }
 	};
 	var events = ['beforeOpen', 'afterOpen', 'load', 'beforeClose', 'afterClose'];
 
