@@ -18,7 +18,11 @@ module.exports = function(grunt) {
 					' */\n'
 			},
 			production: {
-				src: 'src/js/jquery.pdbox.js',
+				src: [
+					'node_modules/tabbable/dist/index.umd.min.js',
+					'node_modules/focus-trap/dist/focus-trap.umd.min.js',
+					'src/js/jquery.pdbox.js'
+				],
 				dest: 'dist/js/jquery.pdbox.js'
 			}
 		},

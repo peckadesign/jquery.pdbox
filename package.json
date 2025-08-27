@@ -2,7 +2,7 @@
 	"name": "jquery.pdbox",
 	"title": "jQuery pdBox",
 	"description": "pdBox is thickbox-like jQuery plugin developed in PeckaDesign",
-	"version": "1.3.18",
+	"version": "2.0.0",
 	"author": {
 		"name": "PeckaDesign, s.r.o",
 		"email": "support@peckadesign.cz"
@@ -34,7 +34,9 @@
 		"grunt-contrib-less": "~3.0.0",
 		"@lodder/grunt-postcss": "~3.1.1",
 		"cssnano": "~5.1.7",
-		"autoprefixer": "~10.4.4"
+		"autoprefixer": "~10.4.4",
+		"focus-trap": "6.9.4",
+		"tabbable": "5.3.3"
 	},
 	"browserslist": [
 		"last 2 versions"
