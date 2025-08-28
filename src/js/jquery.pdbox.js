@@ -83,6 +83,8 @@ $.pdBox = (function () {
 		this.spinnerHtml = options.spinnerHtml || "<span class='pdbox__spinner'></span>";
 		this.html = (typeof options.template === 'function') ? options.template(this) : buildContent(this);
 
+		this.trap = null;
+
 		this.$el = null; // element, který otevřel pdbox
 
 		var optName = '';
@@ -104,10 +106,23 @@ $.pdBox = (function () {
 			this.options[optName] = undefined;
 		}
 
-		this.addEventListener('load', function () {
-			this.rootElem.removeClass('pdbox--loading');
+		this.addEventListener('afterOpen', function () {
+			this.trap = focusTrap.createFocusTrap('.pdbox', {
+				escapeDeactivates: false,
+				clickOutsideDeactivates: false
+			});
+			this.trap.activate();
 		});
 
+		this.addEventListener('load', function () {
+			this.rootElem.removeClass('pdbox--loading');
+			this.trap.updateContainerElements(this.rootElem[0]);
+		});
+
+		this.addEventListener('beforeClose', function () {
+			this.trap.deactivate();
+			this.trap = null;
+		});
 
 		this.addEventListener('afterOpen', checkScrollbars);
 		this.addEventListener('load',      checkScrollbars);

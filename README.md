@@ -17,6 +17,12 @@ $ cat bower.json
  
 ## Changelog
 
+### v2.0.0
+- přidání focusTrap po načtení obsahu pdboxu
+
+### v1.3.18
+- oprava textu pro zavření - close
+
 ### v1.3.17
 - přidání bulharského (`bg`) překladu
 
