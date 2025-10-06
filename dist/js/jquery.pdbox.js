@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2025 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 2.0.1
+ * @version 2.0.2
  */
 /*!
 * tabbable 5.3.3
