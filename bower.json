@@ -1,6 +1,6 @@
 {
 	"name": "jquery.pdbox",
-	"version": "2.0.0",
+	"version": "2.0.1",
 	"homepage": "https://github.com/peckadesign/jquery.pdbox",
 	"authors": [
 		"PeckaDesign, s.r.o <support@peckadesign.cz>"
@@ -8,6 +8,7 @@
 	"main": "dist/js/jquery.pdbox.js",
 	"license": "MIT",
 	"dependencies": {
-		"jquery": ">=1.7"
+		"jquery": ">=1.7",
+		"focus-trap": "https://github.com/focus-trap/focus-trap#v7.6.5"
 	}
 }
