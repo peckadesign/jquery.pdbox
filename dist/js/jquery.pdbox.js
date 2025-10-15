@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2014-2025 PeckaDesign, s.r.o
  * @license MIT
  *
- * @version 2.0.2
+ * @version 2.0.3
  */
 /*!
 * tabbable 5.3.3
@@ -180,8 +180,9 @@ $.pdBox = (function () {
 
 	PdBox.prototype.open = function ($el, selector, loadedContent) {
 		this.$el = $el;
+		var isOpen = this.isOpen
 
-		if ( ! this.isOpen) {
+		if ( ! isOpen) {
 			this.isOpen = true;
 			this.setOnOpenOptions = true;
 			this.isBodyOverflowing = isBodyOverflowing();
@@ -221,7 +222,9 @@ $.pdBox = (function () {
 			groupBox(this, $el, selector);
 		}
 
-		this.dispatchEvent('afterOpen', {element: $el});
+		if (! isOpen) {
+			this.dispatchEvent('afterOpen', {element: $el});
+		}
 	};
 
 	PdBox.prototype.close = function (event) {
