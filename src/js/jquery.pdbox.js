@@ -109,7 +109,8 @@ $.pdBox = (function () {
 		this.addEventListener('afterOpen', function () {
 			this.trap = focusTrap.createFocusTrap('.pdbox', {
 				escapeDeactivates: false,
-				clickOutsideDeactivates: false
+				clickOutsideDeactivates: false,
+				allowOutsideClick: true
 			});
 			this.trap.activate();
 		});

@@ -3,7 +3,7 @@
  * https://github.com/peckadesign/jquery.pdbox
  *
  * @author PeckaDesign, s.r.o <support@peckadesign.cz>
- * @copyright Copyright (c) 2014-2025 PeckaDesign, s.r.o
+ * @copyright Copyright (c) 2014-2026 PeckaDesign, s.r.o
  * @license MIT
  *
  * @version 2.0.3
@@ -133,7 +133,8 @@ $.pdBox = (function () {
 		this.addEventListener('afterOpen', function () {
 			this.trap = focusTrap.createFocusTrap('.pdbox', {
 				escapeDeactivates: false,
-				clickOutsideDeactivates: false
+				clickOutsideDeactivates: false,
+				allowOutsideClick: true
 			});
 			this.trap.activate();
 		});
