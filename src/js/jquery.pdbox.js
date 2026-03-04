@@ -186,7 +186,7 @@ $.pdBox = (function () {
 
 		this.addEventListener('load', this.setOptions);
 
-		this.window.elem.on('click', $.proxy(windowElemClickHandler, this));
+		this.window.elem.on('click', windowElemClickHandler.bind(this));
 
 		this.$body.addClass('pdbox-open');
 
@@ -401,11 +401,11 @@ $.pdBox = (function () {
 
 		$.ajax({
 			url: href,
-			success: $.proxy(function (content) {
+			success: (function (content) {
 				this.window.descWrap.show();
 				this.window.desc.html(content);
 				this.dispatchEvent('load', {element: $el, content: content});
-			}, this)
+			}).bind(this)
 		});
 	};
 
@@ -440,8 +440,8 @@ $.pdBox = (function () {
 
 		box.window.media = box.window.elem.find('.pdbox__media-box');
 
-		$(document).on('click.pdbox', '.pdbox__close, .pdbox__close--alternative', $.proxy(windowElemClickHandler, box));
-		box.$doc.on('keyup.pdbox', $.proxy(escapeKeyHandler, box));
+		$(document).on('click.pdbox', '.pdbox__close, .pdbox__close--alternative', windowElemClickHandler.bind(box));
+		box.$doc.on('keyup.pdbox', escapeKeyHandler.bind(box));
 	}
 
 	function hideBox(box) {
@@ -579,7 +579,7 @@ $.pdBox = (function () {
 					$nextPage.trigger('click.pdbox');
 				}
 			});
-			box.$doc.on('keyup.pdbox', $.proxy(pageKeyHandler, box));
+			box.$doc.on('keyup.pdbox', pageKeyHandler.bind(box));
 
 			if ($numbers.length > 1) {
 				box.window.pager.elem.show();
@@ -659,16 +659,16 @@ $.pdBox = (function () {
 	}
 
 	function escapeKeyHandler(e) {
-		if (e.which === 27) {
+		if (e.key === 'Escape') {
 			this.close(e);
 		}
 	}
 
 	function pageKeyHandler(e) {
-		if (e.which === 37) {
+		if (e.key === 'ArrowLeft') {
 			this.window.pager.prev.not('.pdbox__page--disabled').trigger('click');
 
-		} else if (e.which === 39) {
+		} else if (e.key === 'ArrowRight') {
 			this.window.pager.next.not('.pdbox__page--disabled').trigger('click');
 		}
 
